@@ -26,7 +26,7 @@ class ProjectManager:
     def window_setup(self):
 
         ctk.set_appearance_mode("light")
-        ctk.set_default_color_theme("ProjectManager/custom_themes/jcolor.json")
+        ctk.set_default_color_theme("FinishFast/custom_themes/jcolor.json")
 
         # login window
         self.window = ctk.CTk()
