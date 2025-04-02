@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from ProjectsModel import ProjectsModel
 from Database import Projects
+from Methods import Methods
 
 class MainView:
 
@@ -10,9 +11,12 @@ class MainView:
     TEXT_COLOR = ('black', 'white')
 
     def __init__(self, window, database, curr_user):
+
+        self.methods = Methods()
         self.curr_user = curr_user
         self.db = database
 
+        self.curr_window = window
         self.pm = ProjectsModel(database)
         self.num_of_projects = self.pm.num_of_projects(curr_user)
         print(f'Number of Projects: {self.num_of_projects}')
@@ -20,26 +24,9 @@ class MainView:
         self.cols = 4
         self.rows = 4
     
-        self.dashboard_top(window)
+        self.dashboard_top(self.curr_window)
         self.check_grid(self.projects_frame)
-        self.get_current_projects(database, curr_user)
-
-    def add_project(self, database, proj_name):
-        
-        new_project_obj = ProjectsModel.create_project(database, proj_name.get(), self.curr_user)
-        row_pos = self.num_of_projects // self.cols
-        col_pos = self.num_of_projects % self.cols
-
-        button = ctk.CTkButton(self.projects_frame, text=new_project_obj["project_name"],
-                              width=100, height=100, fg_color='black',
-                              command = lambda: print(f'Project Clicked! {new_project_obj["project_name"]} and {new_project_obj["projectID"]}'))
-        button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
-        button.grid(row=row_pos, column=col_pos)
-
-        if self.num_of_projects == (self.rows*self.cols):
-            self.rows += 1
-            self.updateGrid(self.projects_frame)
-        self.num_of_projects += 1
+        self.get_current_projects(curr_user)
         
 
     def dashboard_top(self, window):
@@ -80,12 +67,12 @@ class MainView:
         notes_frame.grid(row=4, column=0, rowspan=5, columnspan=3, sticky='news', pady=5, padx=5)
 
     # Projects
-    def get_current_projects(self, database, curr_user):
+    def get_current_projects(self, curr_user):
         project_count = 0
 
         # Get current projects from database
-        projects = ProjectsModel.get_projects(database, curr_user)
-        with database.get_session() as session:
+        projects = ProjectsModel.get_projects(self.db, curr_user)
+        with self.db.get_session() as session:
             for project in projects:
                 session.add(project)
                 print(f'Project: {project.project_name}')
@@ -96,7 +83,7 @@ class MainView:
 
                 button = ctk.CTkButton(self.projects_frame, text=project.project_name,
                                     width=100, height=100, fg_color='black',
-                                    command = lambda: print(f'Project Clicked! {project.project_name} and {project.projectID}'))
+                                    command = lambda p_id=project.projectID: self.single_project_frame(self.curr_window, p_id))
                 button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
                 button.grid(row=row_pos, column=col_pos)
 
@@ -129,16 +116,50 @@ class MainView:
         # new grid for projects frame
         self.updateGrid(self.projects_frame)
 
+    
     # Single Project Frame
-    def project_frame(self, window):
-        
-        # individual project frame
+    def single_project_frame(self, window, projectID):
+
+        # Hide old frame
+        self.projects_frame.grid_forget()
+
+         # individual project frame
         self.project_frame = ctk.CTkScrollableFrame(window, bg_color='transparent',
                                             fg_color='transparent')
         self.project_frame.grid(row=0, column=3, rowspan=9, columnspan=6, sticky='news', pady=(35,5), padx=5)
 
-        # new grid for projects frame
-        self.updateGrid(self.project_frame)
+        # new grid for project frame
+        self.methods.grid_configure(self.project_frame, 4, 4)
+ 
+        print(f'Open Project: {projectID}')
+        
+        # Opening specific project window with projectID
+        with self.db.get_session() as session:
+            project = session.query(Projects).filter_by(projectID=projectID).first()
+            
+            # project Label
+            curr_project = ctk.CTkLabel(self.project_frame, text=project.project_name,
+                                        text_color=self.TEXT_COLOR, font=('',20,'bold'))
+            curr_project.grid(row=0, column=0, columnspan=4, sticky='ew')
+
+
+    # Add Project to database and GUI
+    def add_project(self, database, proj_name):
+        
+        new_project_obj = ProjectsModel.create_project(database, proj_name.get(), self.curr_user)
+        row_pos = self.num_of_projects // self.cols
+        col_pos = self.num_of_projects % self.cols
+
+        button = ctk.CTkButton(self.projects_frame, text=new_project_obj["project_name"],
+                              width=100, height=100, fg_color='black',
+                              command = lambda: self.single_project_frame(self.curr_window, new_project_obj["projectID"]))
+        button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
+        button.grid(row=row_pos, column=col_pos)
+
+        if self.num_of_projects == (self.rows*self.cols):
+            self.rows += 1
+            self.updateGrid(self.projects_frame)
+        self.num_of_projects += 1
 
 
     def updateGrid(self, window):
