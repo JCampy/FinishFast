@@ -13,8 +13,8 @@ class ProjectsModel:
         db = database
         if title is None or owner is None:
             raise ValueError('Title and owner must be provided')
+        
         else:
-            
             with db.get_session() as session:
                 new_project = Projects(
                     projectID=str(uuid.uuid4()),
@@ -25,7 +25,7 @@ class ProjectsModel:
                 session.add(new_project)
                 print('Project Created!')
 
-                # Return project data as a dictionary 
+                # Return project object data as a dictionary 
                 project_data = {
                     'projectID': new_project.projectID,
                     'project_name': new_project.project_name,
@@ -42,23 +42,27 @@ class ProjectsModel:
             projects = session.query(Projects).filter_by(userID=user_id).all()
         return projects
     
-    def num_of_projects(self, user_id):
-        with self.db.get_session() as session:
+    # return number of current projects
+    @staticmethod
+    def num_of_projects(database, user_id):
+        with database.get_session() as session:
             projects = session.query(Projects).filter_by(userID=user_id).all()
         return len(projects)
 
     # Delete project
-    def delete_project(self, project_id):
-        with self.db.get_session() as session:
+    @staticmethod
+    def delete_project(database, project_id):
+        with database.get_session() as session:
             project = session.query(Projects).filter_by(projectID=project_id).first()
             session.delete(project)
 
     # Update project
-    def update_project(self, project_id, title):
-        with self.db.get_session() as session:
+    @staticmethod
+    def update_project(database, project_id, title):
+        with database.get_session() as session:
             project = session.query(Projects).filter_by(projectID=project_id).first()
             project.project_name = title
-        session.commit()
+        
 
 
 

@@ -135,3 +135,7 @@ class ProjectsView:
             while self.num_of_projects > (self.rows*self.cols):
                 self.rows += 1
                 self.updateGrid(window)
+
+    # Helper function to chain single project window and a method to pass the window into SingleProjectView method.
+    def project_view_chain(self):
+        pass
