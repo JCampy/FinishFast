@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from ProjectsModel import ProjectsModel, Projects
 from Methods import Methods
+from SingleProjectView import SingleProjectView
 
 class ProjectsView:
     MAIN_COLOR = '#39BCCE'
@@ -137,5 +138,6 @@ class ProjectsView:
                 self.updateGrid(window)
 
     # Helper function to chain single project window and a method to pass the window into SingleProjectView method.
-    def project_view_chain(self):
-        pass
+    def project_view_chain(self, project_id, window, database, curr_user):
+        self.single_project_frame(project_id)
+        self.spv = SingleProjectView(window, database, curr_user)
