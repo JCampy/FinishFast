@@ -13,9 +13,13 @@ class Methods:
                     color.grid(row=i, column=j,  sticky='news')
 
     # Configure grid layouts
-    def grid_configure(self, window, rows, cols):
-        window.columnconfigure(list(range(cols)), weight=1, uniform='a')
-        window.rowconfigure(list(range(rows)), weight=1, uniform='a')
+    def grid_configure(self, window, rows, cols, minsize=None):
+        # Configure rows
+        for i in range(rows):
+            window.rowconfigure(i, weight=1, uniform='a', minsize=minsize)
+        # Configure columns
+        for j in range(cols):
+            window.columnconfigure(j, weight=1, uniform='a', minsize=minsize)
 
     # Center window
     def center_window(self, window, width, height):

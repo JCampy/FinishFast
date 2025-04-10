@@ -91,12 +91,6 @@ class ProjectManager:
         #self.testing = Testing()
         #self.testing.fill_grid(sign_up_window)
 
-    # Return Login Window
-    def return_login(self, window):
-
-        window.withdraw()
-        self.window.deiconify()
-
     # new window
     def create_main_window(self, curr_user):
 
@@ -127,6 +121,11 @@ class ProjectManager:
         # main view
         self.main_view = MainView(main_window, self.db, curr_user)
 
+     # Return Login Window
+    def return_login(self, window):
+
+        window.withdraw()
+        self.window.deiconify()
 
 
 if __name__ == "__main__":

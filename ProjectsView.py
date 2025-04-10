@@ -2,6 +2,7 @@ import customtkinter as ctk
 from ProjectsModel import ProjectsModel, Projects
 from Methods import Methods
 from SingleProjectView import SingleProjectView
+from Testing import Testing
 
 class ProjectsView:
     MAIN_COLOR = '#39BCCE'
@@ -13,6 +14,7 @@ class ProjectsView:
         self.window = window
         self.db = database
         self.curr_user = curr_user
+        self.test = Testing()
         
         self.methods = Methods()
 
@@ -20,7 +22,7 @@ class ProjectsView:
         self.rows = 4
 
         self.pm = ProjectsModel(database)
-        self.num_of_projects = self.pm.num_of_projects(curr_user)
+        self.num_of_projects = self.pm.num_of_projects(database, curr_user)
         print(f'Number of Projects: {self.num_of_projects}')
 
     # Projects
@@ -57,7 +59,7 @@ class ProjectsView:
 
         # add project button
         add_project = ctk.CTkButton(self.window, text='Add Project', fg_color=self.MAIN_COLOR,
-                                     width=12, height=8, command=lambda: self.add_project(self.db, proj_name))
+                                     width=12, height=8, command=lambda: self.add_project(proj_name))
         add_project.grid(row=0, column=8, columnspan=1, sticky='new', padx=(0,5), pady=(5,0))
 
         # projects frame outline color
@@ -75,41 +77,37 @@ class ProjectsView:
 
     
     # Single Project Frame
-    def single_project_frame(self, projectID):
+    def single_project_frame(self, project_id):
 
         # Hide old frame
         self.projects_frame.grid_forget()
 
          # individual project frame
-        self.project_frame = ctk.CTkScrollableFrame(self.window, bg_color='transparent',
+        self.project_frame = ctk.CTkFrame(self.window, bg_color='transparent',
                                             fg_color='transparent')
         self.project_frame.grid(row=0, column=3, rowspan=9, columnspan=6, sticky='news', pady=(35,5), padx=5)
 
         # new grid for project frame
-        self.methods.grid_configure(self.project_frame, 4, 4)
- 
-        print(f'Open Project: {projectID}')
+        self.methods.grid_configure(self.project_frame, 5, 4, 50)
+
+        print(f'Open Project: {project_id}')
         
-        # Opening specific project window with projectID
-        with self.db.get_session() as session:
-            project = session.query(Projects).filter_by(projectID=projectID).first()
+        # create instance of single project view and pass window layout    
+        spv = SingleProjectView(self.project_frame, self.db, self.curr_user, project_id)
+        spv.single_project_data()
             
-            # project Label
-            curr_project = ctk.CTkLabel(self.project_frame, text=project.project_name,
-                                        text_color=self.TEXT_COLOR, font=('',20,'bold'))
-            curr_project.grid(row=0, column=0, columnspan=4, sticky='ew')
 
 
     # Add Project to database and GUI
-    def add_project(self, database, proj_name):
+    def add_project(self, proj_name):
         
-        new_project_obj = ProjectsModel.create_project(database, proj_name.get(), self.curr_user)
+        new_project_obj = ProjectsModel.create_project(self.db, proj_name.get(), self.curr_user)
         row_pos = self.num_of_projects // self.cols
         col_pos = self.num_of_projects % self.cols
 
         button = ctk.CTkButton(self.projects_frame, text=new_project_obj["project_name"],
                               width=100, height=100, fg_color='black',
-                              command = lambda: self.single_project_frame(self.curr_window, new_project_obj["projectID"]))
+                              command = lambda: self.single_project_frame(new_project_obj["projectID"]))
         button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
         button.grid(row=row_pos, column=col_pos)
 
@@ -137,7 +135,3 @@ class ProjectsView:
                 self.rows += 1
                 self.updateGrid(window)
 
-    # Helper function to chain single project window and a method to pass the window into SingleProjectView method.
-    def project_view_chain(self, project_id, window, database, curr_user):
-        self.single_project_frame(project_id)
-        self.spv = SingleProjectView(window, database, curr_user)
