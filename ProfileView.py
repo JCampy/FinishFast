@@ -13,9 +13,9 @@ class ProfileView:
         def create_profile_frame(self):
     
             # profile frame outline color
-            profile_frame = ctk.CTkFrame(self.window, bg_color='transparent',
+            profile_frame_bg = ctk.CTkFrame(self.window, bg_color='transparent',
                                         fg_color=self.MAIN_COLOR)
-            profile_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky='news', pady=2, padx=2)
+            profile_frame_bg.grid(row=0, column=0, rowspan=3, columnspan=3, sticky='news', pady=2, padx=2)
 
             # profile frame
             profile_frame = ctk.CTkFrame(self.window, bg_color='transparent',

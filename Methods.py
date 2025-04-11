@@ -1,6 +1,12 @@
 import customtkinter as ctk 
 
 class Methods:
+    
+    MAIN_COLOR = '#39BCCE'
+    SECONDARY_WHITE = '#f8f2f2'
+    THIRD_GRAY = 'gray14'
+    TEXT_COLOR = ('black', 'white')
+
 
     def __init__(self):
         pass
@@ -56,3 +62,14 @@ class Methods:
         else:
             ctk.set_appearance_mode("dark")
             print('dark')  
+
+
+    # return color choice based on current light or dark setting
+    def color_choice(self):
+        current_color = ''
+        current_mode = ctk.get_appearance_mode()
+        if current_mode == 'Light':
+            current_color = self.SECONDARY_WHITE
+        else:
+            current_color = self.THIRD_GRAY
+        return current_color

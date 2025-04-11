@@ -19,9 +19,9 @@ class NotesView:
         notes_label.grid(row=3, column=0, columnspan=3, sticky='news', pady=(15, 0))
 
         # notes frame outline color
-        notes_frame = ctk.CTkFrame(self.window, bg_color='transparent',
+        notes_frame_bg = ctk.CTkFrame(self.window, bg_color='transparent',
                                     fg_color=self.MAIN_COLOR)
-        notes_frame.grid(row=4, column=0, rowspan=5, columnspan=3, sticky='news', pady=2, padx=2)
+        notes_frame_bg.grid(row=4, column=0, rowspan=5, columnspan=3, sticky='news', pady=2, padx=2)
 
         # notes frame
         notes_frame = ctk.CTkFrame(self.window, bg_color='transparent',

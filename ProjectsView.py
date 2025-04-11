@@ -88,7 +88,7 @@ class ProjectsView:
         self.project_frame.grid(row=0, column=3, rowspan=9, columnspan=6, sticky='news', pady=(35,5), padx=5)
 
         # new grid for project frame
-        self.methods.grid_configure(self.project_frame, 5, 4, 50)
+        self.methods.grid_configure(self.project_frame, 6, 4, 50)
 
         print(f'Open Project: {project_id}')
         
