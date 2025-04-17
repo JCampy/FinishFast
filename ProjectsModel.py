@@ -63,7 +63,14 @@ class ProjectsModel:
             project = session.query(Projects).filter_by(projectID=project_id).first()
             project.project_name = title
         
-
+def project_dict(p): # might use it might not
+    
+    return {
+        'projectID': p.projectID,
+        'project_name': p.project_name,
+        'userID': p.userID,
+        'date_created': p.date_created
+    }
 
 
     
