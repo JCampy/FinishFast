@@ -40,7 +40,11 @@ class Tasks(Base):
     __tablename__ = 'tasks'
     taskID = Column(String, primary_key=True)
     task_name = Column(String, nullable=False)
+    task_data = Column(String, nullable=False)
     completed = Column(Boolean, nullable=False)
+    priority = Column(Integer, nullable=False)
+    difficulty = Column(Integer, nullable=False)
+    date_created = Column(String, nullable=False)
     date_completed = Column(String)
     projectID = Column(String, ForeignKey('projects.projectID'))
     projects = relationship('Projects', back_populates='tasks')

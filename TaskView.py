@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from TasksModel import TasksModel
 from Methods import Methods
 
 
@@ -28,6 +29,7 @@ class TaskView():
         self.m.center_window(popup, 400, 350)
         popup.resizable(False, False)
         popup.lift()
+        popup.focus_force()
 
         self.m.grid_configure(popup, 5, 2)
 
@@ -64,6 +66,8 @@ class TaskView():
             task_desc = task_desc_entry.get()
             task_priority = priority_slider.get()
             task_difficulty = difficulty_slider.get()
+            new_task = TasksModel.create_task(self.db, self.proj_id, task_name, task_desc, 
+                                              task_priority, task_difficulty)
             print(f"Task Name: {task_name}")
             print(f"Task Description: {task_desc}")
             print(f"Priority: {task_priority}")
