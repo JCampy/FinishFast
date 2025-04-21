@@ -4,6 +4,7 @@ from Testing import Testing
 import awesometkinter as atk
 from Methods import Methods
 from TaskView import TaskView
+from TasksModel import TasksModel
 
 class SingleProjectView:
 
@@ -18,6 +19,7 @@ class SingleProjectView:
         self.db = database
         self.curr_user = curr_user
         self.p_id = project_id
+        
         self.test = Testing()
         self.m = Methods()
 
@@ -71,38 +73,31 @@ class SingleProjectView:
         close_single_project_button.grid(row=0, column=3, sticky='ne', padx=3, pady=3)
 
         # Scrollable Frame for Tasks
-        self.tasks_frame = ctk.CTkScrollableFrame(self.window, fg_color='#cccbc8')
-        self.tasks_frame.grid(row=3, column=0, columnspan=4, rowspan=3, sticky='nsew', padx=10, pady=(0, 25))
+        ###self.tasks_frame = ctk.CTkScrollableFrame(self.window, fg_color='#cccbc8')
+        ###self.tasks_frame.grid(row=3, column=0, columnspan=4, rowspan=3, sticky='nsew', padx=10, pady=(0, 25))
 
         # Configure rows and columns for tasks_frame
-        self.tasks_frame.rowconfigure(list(range(10)), weight=1)  # Adjust the range based on the number of tasks
-        self.tasks_frame.columnconfigure(0, weight=1)
+        ###self.m.grid_configure(self.tasks_frame, self.rows, self.cols)
         
         # initialize task_view 
-        self.task_view = TaskView(self.db, self.curr_user, self.p_id, self.window, self.tasks_frame)
-
+        self.task_view = TaskView(self.db, self.curr_user, self.p_id, self.window)
+        self.task_view.task_window()
         # Tasks Label
-        tasks_label = ctk.CTkLabel(self.window, text="Tasks:", text_color=None, font=('', 18, 'bold'))
-        tasks_label.grid(row=2, column=0, columnspan=1, sticky='sw', padx=10, pady=10)
+        ###tasks_label = ctk.CTkLabel(self.window, text="Tasks:", text_color=None, font=('', 18, 'bold'))
+        ###tasks_label.grid(row=2, column=0, columnspan=1, sticky='sw', padx=10, pady=10)
 
         # add task button
-        add_task = ctk.CTkButton(self.window, text='Add Task', fg_color=self.MAIN_COLOR,
-                                    width=12, height=8, command=lambda: self.task_view.task_popup_window())
-        add_task.grid(row=2, column=3, columnspan=1, sticky='se', padx=10, pady=10)
+        ###add_task = ctk.CTkButton(self.window, text='Add Task', fg_color=self.MAIN_COLOR,
+        ##                            width=12, height=8, command=lambda: self.task_view.task_popup_window())
+        ###add_task.grid(row=2, column=3, columnspan=1, sticky='se', padx=10, pady=10)
 
         
         # sort task combobox
-        sort_task = ctk.CTkComboBox(self.window, width=110, height=12,fg_color=self.MAIN_COLOR, bg_color=self.MAIN_COLOR, values=["Date Created", "Priority",  
-                                    "Difficulty", "Completed", "Search Specific"], dropdown_fg_color=current_color,
-                                    command= self.sort_task_combobox, text_color=self.TEXT_COLOR, state="readonly", corner_radius=0)
-        sort_task.grid(row=2, column=3, sticky='sw', padx=10 , pady=10)
-        sort_task.set("Date Created")
-        
-
-        
-
-    def sort_task_combobox(self, value):
-        print(value)
-            # FIGURE OUT WHY GRID IS NOT EXPANDING TO THE ENTIRE FRAME
+        ###sort_task = ctk.CTkComboBox(self.window, width=110, height=12,fg_color=self.MAIN_COLOR, bg_color=self.MAIN_COLOR, values=["Date Created", "Priority",  
+        #                            "Difficulty", "Completed", "Search Specific"], dropdown_fg_color=current_color,
+        #                            command= self.sort_task_combobox, text_color=self.TEXT_COLOR, state="readonly", corner_radius=0)
+        ###sort_task.grid(row=2, column=3, sticky='sw', padx=10 , pady=10)
+        ###sort_task.set("Date Created")
+          
 
     

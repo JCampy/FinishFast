@@ -50,22 +50,22 @@ class TasksModel:
         
         # return the number of current task for project
         @staticmethod
-        def get_num_of_task(database, user_id, project_id):
+        def get_num_of_task(database, project_id):
             with database.get_session() as session:
-                num_task = session.query(Tasks).filter_by(userID=user_id, projectID=project_id).all()
+                num_task = session.query(Tasks).filter_by(projectID=project_id).all()
             return len(num_task)
         
         # delete task
         @staticmethod
-        def delete_task(database, user_id, project_id):
+        def delete_task(database, project_id):
             with database.get_session() as session:
-                task = session.query(Tasks).filter_by(userID=user_id, projectID=project_id).first()
+                task = session.query(Tasks).filter_by(projectID=project_id).first()
             session.delete(task)
 
         # change task name
         @staticmethod
-        def update_task(database, user_id, project_id, title):
+        def update_task(database, project_id, title):
             with database.get_session() as session:
-                task = session.query(Tasks).filter_by(userID=user_id, projectID=project_id).first()
+                task = session.query(Tasks).filter_by(projectID=project_id).first()
                 task.task_name = title
                 

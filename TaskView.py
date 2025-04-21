@@ -10,16 +10,47 @@ class TaskView():
     THIRD_GRAY = 'gray14'
     TEXT_COLOR = ('black', 'white')
 
-    def __init__(self, db, curr_user, proj_id, proj_win, task_win):
+    def __init__(self, db, curr_user, proj_id, proj_win):
 
         self.db = db
         self.curr_user = curr_user
         self.proj_id = proj_id
         self.proj_win = proj_win
-        self.task_win = task_win
+        self.rows = 2
+        self.cols = 5
 
+        self.num_of_task = TasksModel.get_num_of_task(self.db, self.proj_id)
         self.m = Methods()
     
+    def task_window(self):
+
+        # get current dark or light mode for variables 
+        current_color = self.m.color_choice()
+
+        # Scrollable Frame for Tasks
+        self.tasks_frame = ctk.CTkScrollableFrame(self.proj_win, fg_color='#cccbc8')
+        self.tasks_frame.grid(row=3, column=0, columnspan=4, rowspan=3, sticky='nsew', padx=10, pady=(0, 25))
+
+        # Configure rows and columns for tasks_frame
+        self.m.grid_configure(self.tasks_frame, self.rows, self.cols)
+        
+        # Tasks Label
+        tasks_label = ctk.CTkLabel(self.proj_win, text="Tasks:", text_color=None, font=('', 18, 'bold'))
+        tasks_label.grid(row=2, column=0, columnspan=1, sticky='sw', padx=10, pady=10)
+
+        # add task button
+        add_task = ctk.CTkButton(self.proj_win, text='Add Task', fg_color=self.MAIN_COLOR,
+                                    width=12, height=8, command=lambda: self.task_popup_window())
+        add_task.grid(row=2, column=3, columnspan=1, sticky='se', padx=10, pady=10)
+
+        
+        # sort task combobox
+        sort_task = ctk.CTkComboBox(self.proj_win, width=110, height=12,fg_color=self.MAIN_COLOR, bg_color=self.MAIN_COLOR, values=["Date Created", "Priority",  
+                                    "Difficulty", "Completed", "Search Specific"], dropdown_fg_color=current_color,
+                                    command= self.sort_task_combobox, text_color=self.TEXT_COLOR, state="readonly", corner_radius=0)
+        sort_task.grid(row=2, column=3, sticky='sw', padx=10 , pady=10)
+        sort_task.set("Date Created")
+
     # Create a popup window
     def task_popup_window(self):
 
@@ -84,3 +115,16 @@ class TaskView():
         cancel_button = ctk.CTkButton(popup, text="Cancel", command=on_cancel, fg_color="gray")
         cancel_button.grid(row=4, column=1, padx=10, pady=20)
         
+    # Check grid at start of app when loading projects
+    def check_task_grid(self, window):
+        if self.num_of_task == (self.rows*self.cols):
+            self.rows += 1
+            self.updateGrid(window)
+        elif self.num_of_task > (self.rows*self.cols):
+            while self.num_of_projects > (self.rows*self.cols):
+                self.rows += 1
+                self.updateGrid(window)  
+
+    def sort_task_combobox(self, value):
+        print(value)
+            # FIGURE OUT WHY GRID IS NOT EXPANDING TO THE ENTIRE FRAME

@@ -118,14 +118,14 @@ class ProjectsView:
 
     def update_grid(self, window):
         
-        # Update rows
+        # Update rows when adding during app usage
         for row in range(self.rows):
             window.rowconfigure(row, weight=1, uniform='a', minsize=125)
         # Update columns
         for col in range(self.cols):
             window.columnconfigure(col, weight=1, uniform='a', minsize=125)
 
-    # Check grid
+    # Check grid at start of app when loading projects
     def check_grid(self, window):
         if self.num_of_projects == (self.rows*self.cols):
             self.rows += 1
