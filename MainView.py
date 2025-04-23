@@ -21,7 +21,7 @@ class MainView:
         self.notes_view.create_notes_frame()
         self.profile_view.create_profile_frame()
         self.projects_view.create_projects_frame()
-        self.projects_view.check_grid(self.projects_view.projects_frame)
+        self.projects_view.check_project_grid(self.projects_view.projects_frame)
         self.projects_view.get_current_projects(curr_user)
 
         

@@ -46,6 +46,8 @@ class ProjectsView:
                 button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
                 button.grid(row=row_pos, column=col_pos)
 
+                self.check_project_grid(self.project_frame)
+
     def create_projects_frame(self):
 
         # project Label
@@ -126,7 +128,7 @@ class ProjectsView:
             window.columnconfigure(col, weight=1, uniform='a', minsize=125)
 
     # Check grid at start of app when loading projects
-    def check_grid(self, window):
+    def check_project_grid(self, window):
         if self.num_of_projects == (self.rows*self.cols):
             self.rows += 1
             self.updateGrid(window)

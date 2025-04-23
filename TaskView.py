@@ -91,14 +91,37 @@ class TaskView():
         # Done Button
         def on_done():
 
-            #with self.db.get_session() as session:
-                
+            # getting task details and creating a new task                
             task_name = task_name_entry.get()
             task_desc = task_desc_entry.get()
             task_priority = priority_slider.get()
             task_difficulty = difficulty_slider.get()
             new_task = TasksModel.create_task(self.db, self.proj_id, task_name, task_desc, 
                                               task_priority, task_difficulty)
+            
+            # adding individual task to task frame
+            row_pos = self.num_of_task // self.cols
+            col_pos = self.num_of_task % self.cols
+
+            single_task_frame = ctk.CTkFrame(self.tasks_frame, fg_color='#cccbc8', width=75, height=100)  #'#cccbc8'
+            single_task_frame.grid(row=row_pos, column=col_pos)
+            self.m.grid_configure(single_task_frame, 2, 1)
+            
+            button1 = ctk.CTkButton(single_task_frame, text='X', width=10, height=10, 
+                                    fg_color="red", command= lambda: self.delete_task(single_task_frame, self.proj_id, new_task["taskID"])) # temp message
+            button1.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
+            button2 = ctk.CTkButton(single_task_frame, text=new_task["task_name"],
+                              width=50, height=50, corner_radius=15, fg_color='black',
+                              command = lambda: print(new_task["taskID"]))
+            button2._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
+            button2.grid(row=2, column=1, sticky='nsew')
+
+            if self.num_of_task == (self.rows*self.cols):
+                self.rows += 1
+                self.update_task_grid(self.tasks_frame)
+            self.num_of_task += 1
+
+            # temp display of task details
             print(f"Task Name: {task_name}")
             print(f"Task Description: {task_desc}")
             print(f"Priority: {task_priority}")
@@ -123,8 +146,25 @@ class TaskView():
         elif self.num_of_task > (self.rows*self.cols):
             while self.num_of_projects > (self.rows*self.cols):
                 self.rows += 1
-                self.updateGrid(window)  
+                self.updateGrid(window)
 
+    # Updating grid 
+    def update_task_grid(self, window):
+    
+        # Update rows when adding during app usage
+        for row in range(self.rows):
+            window.rowconfigure(row, weight=1, uniform='a')
+        # Update columns
+        for col in range(self.cols):
+            window.columnconfigure(col, weight=1, uniform='a')
+
+    # simple method to show current combobox selection
     def sort_task_combobox(self, value):
         print(value)
             # FIGURE OUT WHY GRID IS NOT EXPANDING TO THE ENTIRE FRAME
+
+    # delete task
+    def delete_task(self, window, proj_id, taskID):
+        window.destroy()
+        TasksModel.delete_task(self.db, proj_id, taskID)
+        pass

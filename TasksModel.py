@@ -57,9 +57,9 @@ class TasksModel:
         
         # delete task
         @staticmethod
-        def delete_task(database, project_id):
+        def delete_task(database, project_id, taskID):
             with database.get_session() as session:
-                task = session.query(Tasks).filter_by(projectID=project_id).first()
+                task = session.query(Tasks).filter_by(projectID=project_id, taskID=taskID).first()
             session.delete(task)
 
         # change task name
