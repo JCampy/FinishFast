@@ -43,9 +43,9 @@ class TasksModel:
 
         # get all task for current user and current project
         @staticmethod       
-        def get_tasks(database, user_id, project_id):
+        def get_tasks(database, project_id):
             with database.get_session() as session:
-                tasks = session.query(Tasks).filter_by(userID=user_id, projectID=project_id).all()
+                tasks = session.query(Tasks).filter_by(projectID=project_id).all()
             return tasks
         
         # return the number of current task for project
@@ -60,7 +60,7 @@ class TasksModel:
         def delete_task(database, project_id, taskID):
             with database.get_session() as session:
                 task = session.query(Tasks).filter_by(projectID=project_id, taskID=taskID).first()
-            session.delete(task)
+                session.delete(task)
 
         # change task name
         @staticmethod
@@ -68,4 +68,17 @@ class TasksModel:
             with database.get_session() as session:
                 task = session.query(Tasks).filter_by(projectID=project_id).first()
                 task.task_name = title
+
+        @staticmethod
+        def completed_tasks(database, project_id):
+            with database.get_session() as session:
+                task = session.query(Tasks).filter_by(projectID=project_id, completed=True).all()
+            return len(task)
+        
+        @staticmethod
+        def delete_all_tasks(database, project_id):
+            with database.get_session() as session:
+                tasks = session.query(Tasks).filter_by(projectID=project_id).all()
+                for task in tasks:
+                    session.delete(task)
                 

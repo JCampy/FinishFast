@@ -19,13 +19,13 @@ class ProjectManager:
     def __init__(self):
 
         self.methods = Methods()
-        self.window_setup()
+        self.login_window()
         self.initialize_gui()
 
         # run loop
         self.window.mainloop()
     
-    def window_setup(self):
+    def login_window(self):
 
         ctk.set_appearance_mode("light")
         ctk.set_default_color_theme("FinishFast/custom_themes/jcolor.json")
@@ -64,7 +64,7 @@ class ProjectManager:
 
         # login
         self.login = Login(self.signup, self.db)
-        self.login.login_display(self.window, self) 
+        self.login.login_display(self.window, self) # self is for wrap-around to create new main window based on current user
         
 
     # Sign up window

@@ -73,3 +73,69 @@ class Methods:
         else:
             current_color = self.THIRD_GRAY
         return current_color
+    
+    # text warning
+    def check_text_length_warning(self, text, max_length, method):
+        if len(text) > max_length:
+            warning = ctk.CTkToplevel()
+            warning.title='Warning'
+            warning.geometry('200x100')
+            warning.attributes('-topmost', True)
+            self.grid_configure(warning, 2, 1)
+            self.center_window(warning, 50, 25)
+
+            label = ctk.CTkLabel(warning, text='To many characters. Try again.')
+            label.grid(row=0, column=0, sticky='nsew')
+
+            button_close = ctk.CTkButton(warning, text='Close', command=warning.destroy, 
+                                         width=50, height=15)
+            button_close.grid(row=1, column=0, padx=2)
+
+        else:
+
+            return method(text)
+
+    # method for making sure you want something deleted before completing transaction    
+    def are_you_sure(self, curr_frame=None, restore_frame=None, method=None, method_two=None, m_args=(), 
+                     m_two_args=(), restore_frame_kwargs={}):
+
+        warning = ctk.CTkToplevel()
+        warning.title='Warning'
+        warning.geometry('200x100')
+        warning.attributes('-topmost', True)
+        self.grid_configure(warning, 2, 1)
+        self.center_window(warning, 50, 25)
+
+        label = ctk.CTkLabel(warning, text='To many characters. Try again.')
+        label.grid(row=0, column=0, sticky='nsew')
+
+        def pressed_yes():
+
+            if curr_frame:
+                curr_frame.destroy()
+            if restore_frame:
+                restore_frame.grid(**restore_frame_kwargs)
+            if method:
+                method(*m_args)
+            if method_two:
+                method_two(*m_two_args)
+            
+            print(f'Yes accepted')
+            warning.destroy()
+
+        def pressed_no():
+            
+            print(f'No accepted')
+            warning.destroy()
+
+        
+
+        button_yes = ctk.CTkButton(warning, text='Yes', command=pressed_yes, 
+                                        width=50, height=15)
+        button_yes.grid(row=1, column=0, padx=15, sticky='w')
+
+        button_no = ctk.CTkButton(warning, text='No', command=pressed_no, 
+                                        width=50, height=15)
+        button_no.grid(row=1, column=0, padx=15, sticky='e')
+
+        

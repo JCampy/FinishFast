@@ -5,17 +5,19 @@ from SingleProjectView import SingleProjectView
 from Testing import Testing
 
 class ProjectsView:
+
     MAIN_COLOR = '#39BCCE'
     SECONDARY_WHITE = '#f8f2f2'
     THIRD_GRAY = 'gray14'
     TEXT_COLOR = ('black', 'white')
 
-    def __init__(self, window, database, curr_user):
+    def __init__(self, window, database, curr_user, on_proj_selected):
         self.window = window
         self.db = database
         self.curr_user = curr_user
+        self.on_project_selected = on_proj_selected
+
         self.test = Testing()
-        
         self.methods = Methods()
 
         self.cols = 4
@@ -43,10 +45,10 @@ class ProjectsView:
                 button = ctk.CTkButton(self.projects_frame, text=project.project_name,
                                     width=100, height=100, fg_color='black',
                                     command = lambda p_id=project.projectID: self.single_project_frame(p_id))
-                button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
+                button._text_label.configure(wraplength=75, justify="center", padx=2, pady=2)
                 button.grid(row=row_pos, column=col_pos)
 
-                self.check_project_grid(self.project_frame)
+                self.check_project_grid(self.projects_frame)
 
     def create_projects_frame(self):
 
@@ -61,7 +63,8 @@ class ProjectsView:
 
         # add project button
         add_project = ctk.CTkButton(self.window, text='Add Project', fg_color=self.MAIN_COLOR,
-                                     width=12, height=8, command=lambda: self.add_project(proj_name))
+                                     width=12, height=8, command=lambda: 
+                                     self.methods.check_text_length_warning(proj_name.get(), 60, self.add_project))
         add_project.grid(row=0, column=8, columnspan=1, sticky='new', padx=(0,5), pady=(5,0))
 
         # projects frame outline color
@@ -76,41 +79,23 @@ class ProjectsView:
         self.projects_frame.grid(row=0, column=3, rowspan=9, columnspan=6, sticky='news', pady=(35,5), padx=5)
         # new grid for projects frame
         self.update_grid(self.projects_frame)
-
     
     # Single Project Frame
     def single_project_frame(self, project_id):
-
-        # Hide old frame
-        self.projects_frame.grid_forget()
-
-         # individual project frame
-        self.project_frame = ctk.CTkFrame(self.window, bg_color='transparent',
-                                            fg_color='transparent')
-        self.project_frame.grid(row=0, column=3, rowspan=9, columnspan=6, sticky='news', pady=(35,5), padx=5)
-
-        # new grid for project frame
-        self.methods.grid_configure(self.project_frame, 6, 4, 50)
-
-        print(f'Open Project: {project_id}')
-        
-        # create instance of single project view and pass window layout    
-        spv = SingleProjectView(self.project_frame, self.db, self.curr_user, project_id)
-        spv.single_project_data()
-            
+        self.on_project_selected(project_id, self.projects_frame)
 
 
     # Add Project to database and GUI
     def add_project(self, proj_name):
         
-        new_project_obj = ProjectsModel.create_project(self.db, proj_name.get(), self.curr_user)
+        new_project_obj = ProjectsModel.create_project(self.db, proj_name, self.curr_user)
         row_pos = self.num_of_projects // self.cols
         col_pos = self.num_of_projects % self.cols
 
         button = ctk.CTkButton(self.projects_frame, text=new_project_obj["project_name"],
                               width=100, height=100, fg_color='black',
                               command = lambda: self.single_project_frame(new_project_obj["projectID"]))
-        button._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
+        button._text_label.configure(wraplength=50, justify="center", padx=2, pady=2)
         button.grid(row=row_pos, column=col_pos)
 
         if self.num_of_projects == (self.rows*self.cols):
@@ -136,4 +121,8 @@ class ProjectsView:
             while self.num_of_projects > (self.rows*self.cols):
                 self.rows += 1
                 self.updateGrid(window)
+
+    
+
+
 
