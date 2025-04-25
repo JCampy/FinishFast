@@ -13,19 +13,24 @@ class SingleProjectView:
     THIRD_GRAY = 'gray14'
     TEXT_COLOR = ('black', 'white')
 
-    def __init__(self, window, database, curr_user, project_id, prev_frame):
+    def __init__(self, window, database, curr_user, project_id, prev_frame, projects_view, proj_button):
 
         self.window = window
         self.db = database
         self.curr_user = curr_user
         self.p_id = project_id
         self.pf = prev_frame
+        self.pv = projects_view
+        self.proj_button = proj_button
         
         self.test = Testing()
         self.m = Methods()
 
 
     def single_project_data(self):
+        # import necessary for method call
+        from ProjectsView import ProjectsView
+        
 
         # individual project s_project_frame
         self.s_project_frame = ctk.CTkFrame(self.window, bg_color='transparent',
@@ -87,8 +92,8 @@ class SingleProjectView:
         # delete current project and all associated task
         delete_project = ctk.CTkButton(self.s_project_frame, text='Delete Project', fg_color='red',
                                     width=12, height=8, command=lambda: self.m.are_you_sure(
-                                        self.s_project_frame,  # method in methods that calls
-                                        self.pf, ProjectsModel.delete_project, TasksModel.delete_all_tasks,  # delete methods for both project
+                                        self.s_project_frame, self.pf, ProjectsModel.delete_project, # method in methods that calls
+                                        TasksModel.delete_all_tasks, lambda: self.pv.shift_projects(self.proj_button),   # delete methods for both project
                                         m_args=(self.db, self.p_id), m_two_args=(self.db, self.p_id),  # and task. Then restore previous frame
                                         restore_frame_kwargs={
                                             'row': 0, 'column': 3, 'rowspan': 9, 'columnspan': 6,

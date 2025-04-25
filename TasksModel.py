@@ -8,7 +8,7 @@ class TasksModel:
             self.db = database
     
         @classmethod
-        def create_task(cls, database, project_id, title, task_data, priority, difficulty):
+        def create_task(cls, database, project_id, title, task_data, priority, difficulty, task_color):
             # Create a new task and return its data
             db = database
             if title is None or project_id is None:
@@ -23,6 +23,7 @@ class TasksModel:
                         task_data=task_data,
                         priority=priority,
                         difficulty=difficulty,
+                        task_color= task_color,
                         date_created=datetime.now()
                     )
                     session.add(new_task)
@@ -37,6 +38,7 @@ class TasksModel:
                         'task_data': new_task.task_data,
                         'priority' : new_task.priority,
                         'difficulty' : new_task.difficulty,
+                        'task_color' : new_task.task_color,
                         'date_created': new_task.date_created
                     }
                     return task_data

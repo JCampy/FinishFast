@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from TasksModel import TasksModel
 from Methods import Methods
+from CTkColorPicker import *
 
 
 class TaskView():
@@ -18,6 +19,7 @@ class TaskView():
         self.proj_frame = proj_frame
         self.rows = 2
         self.cols = 5
+        self.current_color = 'black'
 
         self.num_of_task = TasksModel.get_num_of_task(self.db, self.proj_id)
         self.m = Methods()
@@ -45,8 +47,8 @@ class TaskView():
                                         p_ID = self.proj_id : self.delete_task(stf, p_ID, t_ID)) # temp message
                 remove_task.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
                 click_task = ctk.CTkButton(single_task_frame, text=task.task_name,
-                                width=50, height=50, corner_radius=15, fg_color='black',
-                                command = lambda t_ID = task.taskID : print(t_ID))
+                                width=50, height=50, corner_radius=15, fg_color=task.task_color,
+                                hover_color=task.task_color, command = lambda t_ID = task.taskID : print(t_ID))
                 click_task._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
                 click_task.grid(row=2, column=1, sticky='nsew')
 
@@ -91,7 +93,7 @@ class TaskView():
         popup.resizable(False, False)
         popup.attributes("-topmost", True)
 
-        self.m.grid_configure(popup, 5, 2)
+        self.m.grid_configure(popup, 6, 2)
 
         # Task Name Input
         task_name_label = ctk.CTkLabel(popup, text="Task Name:", font=('', 14))
@@ -126,7 +128,7 @@ class TaskView():
             task_priority = priority_slider.get()
             task_difficulty = difficulty_slider.get()
             new_task = TasksModel.create_task(self.db, self.proj_id, task_name, task_desc, 
-                                              task_priority, task_difficulty)
+                                              task_priority, task_difficulty, self.current_color)
             
             # adding individual task to task frame
             row_pos = self.num_of_task // self.cols
@@ -140,8 +142,8 @@ class TaskView():
                                     fg_color="red", command= lambda: self.delete_task(single_task_frame, self.proj_id, new_task["taskID"])) # temp message
             button1.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
             button2 = ctk.CTkButton(single_task_frame, text=new_task["task_name"],
-                              width=50, height=50, corner_radius=15, fg_color='black',
-                              command = lambda: print(new_task["taskID"]))
+                              width=50, height=50, corner_radius=15, fg_color=self.current_color,
+                              hover_color=self.current_color, command = lambda: print(new_task["taskID"]))
             button2._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
             button2.grid(row=2, column=1, sticky='nsew')
 
@@ -157,15 +159,19 @@ class TaskView():
             print(f"Difficulty: {task_difficulty}")
             popup.destroy()
 
+        self.task_color_picker_button = ctk.CTkButton(popup, text='    ', fg_color=self.current_color,
+                                                width=12, height=8, command= self.ask_color)
+        self.task_color_picker_button.grid(row=4, column=0, columnspan=2, padx=10, pady=20)
+
         done_button = ctk.CTkButton(popup, text="Done", command=on_done, fg_color=self.MAIN_COLOR)
-        done_button.grid(row=4, column=0, padx=10, pady=20)
+        done_button.grid(row=5, column=0, padx=10, pady=20)
 
         # Cancel Button
         def on_cancel():
             popup.destroy()
 
         cancel_button = ctk.CTkButton(popup, text="Cancel", command=on_cancel, fg_color="gray")
-        cancel_button.grid(row=4, column=1, padx=10, pady=20)
+        cancel_button.grid(row=5, column=1, padx=10, pady=20)
         
     # Check grid at start of app when loading projects
     def check_task_grid(self, window):
@@ -199,6 +205,12 @@ class TaskView():
             col_pos = task_count % self.cols
             widget.grid(row=row_pos, column=col_pos)
             task_count += 1
+        
+        # Adjust the number of rows dynamically
+        new_rows = (task_count + self.cols - 1) // self.cols  # Calculate required rows
+        if new_rows < self.rows:  # Only shrink the grid if necessary
+            self.rows = new_rows
+            self.update_task_grid(self.tasks_frame)
 
     # delete task
     def delete_task(self, window, proj_id, taskID):
@@ -209,6 +221,7 @@ class TaskView():
         self.num_of_task -= 1
         TasksModel.delete_task(self.db, proj_id, taskID)
 
+    # get progress percentage
     def get_progress(self):
         if self.num_of_task == 0:
             percentage = 0
@@ -217,3 +230,13 @@ class TaskView():
         
         return percentage 
         
+    # select color for project buttons
+    def ask_color(self):
+
+        pick_color= AskColor() # Open color picker
+        check = pick_color.get()
+        if check != None:
+            self.current_color = check # set the current color
+            self.task_color_picker_button.configure(fg_color=self.current_color)
+        else:
+            self.current_color = self.current_color

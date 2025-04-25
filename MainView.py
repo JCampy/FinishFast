@@ -25,13 +25,13 @@ class MainView:
         self.projects_view.check_project_grid(self.projects_view.projects_frame)
         self.projects_view.get_current_projects(curr_user)
 
-    def load_single_project_view(self, project_id, prev_frame):
+    def load_single_project_view(self, project_id, prev_frame, projects_view, proj_button):
         
         # Handling transition to SingleProjectView
         print(f'Loading singleProjectView For project ID: {project_id}')
         prev_frame.grid_forget()
         
-        spv = SingleProjectView(self.curr_window, self.db, self.curr_user, project_id, prev_frame)
+        spv = SingleProjectView(self.curr_window, self.db, self.curr_user, project_id, prev_frame, projects_view, proj_button)
         spv.single_project_data()
 
         

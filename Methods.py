@@ -74,8 +74,8 @@ class Methods:
             current_color = self.THIRD_GRAY
         return current_color
     
-    # text warning
-    def check_text_length_warning(self, text, max_length, method):
+    # text length warning
+    def check_text_length_warning(self, text, max_length, min_length, method):
         if len(text) > max_length:
             warning = ctk.CTkToplevel()
             warning.title='Warning'
@@ -84,20 +84,33 @@ class Methods:
             self.grid_configure(warning, 2, 1)
             self.center_window(warning, 50, 25)
 
-            label = ctk.CTkLabel(warning, text='To many characters. Try again.')
+            label = ctk.CTkLabel(warning, text='To many characters!')
             label.grid(row=0, column=0, sticky='nsew')
 
             button_close = ctk.CTkButton(warning, text='Close', command=warning.destroy, 
                                          width=50, height=15)
             button_close.grid(row=1, column=0, padx=2)
+        elif len(text) <= min_length:
+            warning = ctk.CTkToplevel()
+            warning.title='Warning'
+            warning.geometry('200x100')
+            warning.attributes('-topmost', True)
+            self.grid_configure(warning, 2, 1)
+            self.center_window(warning, 50, 25)
 
+            label = ctk.CTkLabel(warning, text='Please enter a project \n name!')
+            label.grid(row=0, column=0, sticky='nsew')
+
+            button_close = ctk.CTkButton(warning, text='Close', command=warning.destroy, 
+                                         width=50, height=15)
+            button_close.grid(row=1, column=0, padx=2)
         else:
 
             return method(text)
 
     # method for making sure you want something deleted before completing transaction    
-    def are_you_sure(self, curr_frame=None, restore_frame=None, method=None, method_two=None, m_args=(), 
-                     m_two_args=(), restore_frame_kwargs={}):
+    def are_you_sure(self, curr_frame=None, restore_frame=None, method=None, method_two=None, method_three=None, 
+                     m_args=(), m_two_args=(), restore_frame_kwargs={}):
 
         warning = ctk.CTkToplevel()
         warning.title='Warning'
@@ -106,7 +119,7 @@ class Methods:
         self.grid_configure(warning, 2, 1)
         self.center_window(warning, 50, 25)
 
-        label = ctk.CTkLabel(warning, text='To many characters. Try again.')
+        label = ctk.CTkLabel(warning, text='Are you sure you want to delete \n the entire project?')
         label.grid(row=0, column=0, sticky='nsew')
 
         def pressed_yes():
@@ -119,6 +132,8 @@ class Methods:
                 method(*m_args)
             if method_two:
                 method_two(*m_two_args)
+            if method_three:
+                method_three()
             
             print(f'Yes accepted')
             warning.destroy()

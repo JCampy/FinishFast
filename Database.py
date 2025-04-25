@@ -33,6 +33,7 @@ class Projects(Base):
     userID = Column(String, ForeignKey('users.userID'))
     project_name = Column(String, nullable=False)
     date_created = Column(String, nullable=False)
+    project_color = Column(String, nullable=False)
     users = relationship('Users', back_populates='projects')
     tasks = relationship('Tasks', back_populates='projects')
 
@@ -46,6 +47,7 @@ class Tasks(Base):
     difficulty = Column(Integer, nullable=False)
     date_created = Column(String, nullable=False)
     date_completed = Column(String)
+    task_color = Column(String, nullable=False)
     projectID = Column(String, ForeignKey('projects.projectID'))
     projects = relationship('Projects', back_populates='tasks')
 
