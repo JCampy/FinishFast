@@ -1,6 +1,6 @@
 # FinishFast Project Manager app
 
-I created this project to show case a todo-like application that could help me manage my other projects but instead of going with a web app I decided to try a desktop app instead.
+I created this project to show case an application that could help me manage my other projects but instead of going with a web app I decided to try a desktop app instead.
 
 # How I made it
 
