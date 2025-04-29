@@ -147,7 +147,10 @@ class TaskView():
             click_task._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
             click_task.grid(row=2, column=1, sticky='nsew')
 
-            self.check_task_grid(self.task_frame)
+            if self.num_of_task == (self.rows*self.cols):
+                self.rows += 1
+                self.update_task_grid(self.tasks_frame)
+            self.num_of_task += 1
 
             # temp display of task details
             print(f"Task Name: {task_name}")

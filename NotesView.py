@@ -128,7 +128,11 @@ class NotesView:
                                     text=new_note['note_text'], wraplength=375)
             note_text.grid(row=1, column=0, sticky='w', padx=5, pady=5)
 
-            self.check_notes_grid(self.notes_frame)
+            # check notes frame and update number of notes
+            if self.get_num_notes == (self.rows*self.cols):
+                self.rows += 1
+                self.update_notes_grid(self.notes_frame)
+            self.get_num_notes += 1
 
 
         done_button = ctk.CTkButton(popup, text="Done", fg_color=self.MAIN_COLOR, command=on_done)
@@ -141,6 +145,7 @@ class NotesView:
         cancel_button = ctk.CTkButton(popup, text="Cancel", fg_color="red", command=on_cancel)
         cancel_button.grid(row=5, column=1, padx=10, pady=10, sticky="e")
 
+    # Check grid for needed updating
     def check_notes_grid(self, window):
         if self.get_num_notes == (self.rows*self.cols):
             self.rows += 1
@@ -150,6 +155,7 @@ class NotesView:
                 self.rows += 1
                 self.update_notes_grid(window)
 
+    # updating grid
     def update_notes_grid(self, window):
     
         # Update rows when adding during app usage
@@ -159,6 +165,7 @@ class NotesView:
         for col in range(self.cols):
             window.columnconfigure(col, weight=1, uniform='a')
 
+    # shift task after deletion
     def shift_tasks(self):
         note_count = 0
         for widget in self.notes_frame.winfo_children():
@@ -173,6 +180,7 @@ class NotesView:
             self.rows = new_rows
             self.update_notes_grid(self.notes_frame)
 
+    # delete task and call helper methods
     def delete_note(self, frame, user_id, note_id):
         print(f'Deleting from: {frame}')
         print(f"Deleting task from database: userID={user_id}, noteID={note_id}")
