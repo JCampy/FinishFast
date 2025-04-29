@@ -53,7 +53,8 @@ class SingleProjectView:
 
             # Project Name
             project_name_label = ctk.CTkLabel(self.s_project_frame, text=project.project_name,
-                                              text_color=self.TEXT_COLOR, font=('', 20, 'bold'))
+                                              text_color=self.TEXT_COLOR, font=('', 20, 'bold'),
+                                              wraplength=315)
             project_name_label.grid(row=0, column=0, columnspan=2, sticky='nw', padx=10, pady=10)
 
             # Project ID

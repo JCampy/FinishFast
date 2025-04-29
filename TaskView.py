@@ -19,7 +19,7 @@ class TaskView():
         self.proj_frame = proj_frame
         self.rows = 2
         self.cols = 5
-        self.current_color = 'black'
+        self.current_color = '#000000'
 
         self.num_of_task = TasksModel.get_num_of_task(self.db, self.proj_id)
         self.m = Methods()
@@ -46,7 +46,7 @@ class TaskView():
                                         fg_color="red", command= lambda t_ID = task.taskID,  stf = single_task_frame, 
                                         p_ID = self.proj_id : self.delete_task(stf, p_ID, t_ID)) # temp message
                 remove_task.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
-                click_task = ctk.CTkButton(single_task_frame, text=task.task_name,
+                click_task = ctk.CTkButton(single_task_frame, text=task.task_name, text_color=self.m.get_contrasting_text_color(task.task_color),
                                 width=50, height=50, corner_radius=15, fg_color=task.task_color,
                                 hover_color=task.task_color, command = lambda t_ID = task.taskID : print(t_ID))
                 click_task._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
@@ -104,7 +104,7 @@ class TaskView():
         # Task Description Input
         task_desc_label = ctk.CTkLabel(popup, text="Task Description:", font=('', 14))
         task_desc_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        task_desc_entry = ctk.CTkEntry(popup, width=150, height=75)
+        task_desc_entry = ctk.CTkTextbox(popup, width=150, height=75, wrap='word')
         task_desc_entry.grid(row=1, column=1, padx=10, pady=10)
 
         # Task Priority Slider
@@ -124,13 +124,13 @@ class TaskView():
 
             # getting task details and creating a new task                
             task_name = task_name_entry.get()
-            task_desc = task_desc_entry.get()
+            task_desc = task_desc_entry.get('1.0', 'end-1c')
             task_priority = priority_slider.get()
             task_difficulty = difficulty_slider.get()
             new_task = TasksModel.create_task(self.db, self.proj_id, task_name, task_desc, 
                                               task_priority, task_difficulty, self.current_color)
             
-            # adding individual task to task frame
+            # position task
             row_pos = self.num_of_task // self.cols
             col_pos = self.num_of_task % self.cols
 
@@ -138,19 +138,16 @@ class TaskView():
             single_task_frame.grid(row=row_pos, column=col_pos)
             self.m.grid_configure(single_task_frame, 2, 1)
             
-            button1 = ctk.CTkButton(single_task_frame, text='X', width=10, height=10, 
+            remove_task = ctk.CTkButton(single_task_frame, text='X', width=10, height=10, 
                                     fg_color="red", command= lambda: self.delete_task(single_task_frame, self.proj_id, new_task["taskID"])) # temp message
-            button1.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
-            button2 = ctk.CTkButton(single_task_frame, text=new_task["task_name"],
+            remove_task.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
+            click_task = ctk.CTkButton(single_task_frame, text=new_task["task_name"], text_color=self.m.get_contrasting_text_color(self.current_color),
                               width=50, height=50, corner_radius=15, fg_color=self.current_color,
                               hover_color=self.current_color, command = lambda: print(new_task["taskID"]))
-            button2._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
-            button2.grid(row=2, column=1, sticky='nsew')
+            click_task._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
+            click_task.grid(row=2, column=1, sticky='nsew')
 
-            if self.num_of_task == (self.rows*self.cols):
-                self.rows += 1
-                self.update_task_grid(self.tasks_frame)
-            self.num_of_task += 1
+            self.check_task_grid(self.task_frame)
 
             # temp display of task details
             print(f"Task Name: {task_name}")

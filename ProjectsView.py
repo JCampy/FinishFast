@@ -17,7 +17,7 @@ class ProjectsView:
         self.db = database
         self.curr_user = curr_user
         self.on_project_selected = on_proj_selected
-        self.current_color = "black"
+        self.current_color = "#000000"
 
         self.test = Testing()
         self.methods = Methods()
@@ -26,7 +26,7 @@ class ProjectsView:
         self.rows = 4
 
         self.pm = ProjectsModel(database)
-        self.num_of_projects = self.pm.num_of_projects(database, curr_user)
+        self.num_of_projects = ProjectsModel.num_of_projects(database, curr_user)
         print(f'Number of Projects: {self.num_of_projects}')
 
     # Projects
@@ -46,6 +46,7 @@ class ProjectsView:
 
                 button = ctk.CTkButton(self.projects_frame, text=project.project_name,
                                     width=100, height=100, fg_color=project.project_color,
+                                    text_color=self.methods.get_contrasting_text_color(project.project_color),
                                     hover_color=project.project_color)
                 button._text_label.configure(wraplength=75, justify="center", padx=2, pady=2)
                 button.configure(command = lambda p_id=project.projectID, pb=button: self.single_project_frame(p_id, pb))
@@ -95,10 +96,12 @@ class ProjectsView:
     def add_project(self, proj_name):
         
         new_project_obj = ProjectsModel.create_project(self.db, proj_name, self.curr_user, self.current_color)
+        # postioning projects
         row_pos = self.num_of_projects // self.cols
         col_pos = self.num_of_projects % self.cols
 
-        button = ctk.CTkButton(self.projects_frame, text=new_project_obj["project_name"],
+        button = ctk.CTkButton(self.projects_frame, text=new_project_obj["project_name"], 
+                            text_color=self.methods.get_contrasting_text_color(self.current_color),
                             width=100, height=100, fg_color=self.current_color, hover_color=self.current_color)
         button._text_label.configure(wraplength=75, justify="center", padx=2, pady=2)
         button.configure(command = lambda pb = button : self.single_project_frame(new_project_obj["projectID"], pb))
@@ -149,6 +152,7 @@ class ProjectsView:
 
         pick_color= AskColor() # Open color picker
         check = pick_color.get()
+        print(check)
         if check != None:
             self.current_color = check # set the current color
             self.color_picker_button.configure(fg_color=self.current_color)

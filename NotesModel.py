@@ -34,29 +34,30 @@ class NotesModel:
                 return note_data
 
      # get all notes for current user 
-        @staticmethod       
-        def get_notes(database, user_id):
-            with database.get_session() as session:
-                notes = session.query(Notes).filter_by(userID=user_id).all()
-            return notes
-        
-        # return the number of current notes 
-        def get_num_of_notes(database, user_id):
-            with database.get_session() as session:
-                num_notes = session.query(Notes).filter_by(userID=user_id).all()
-            return len(num_notes)
-        
-        # delete note
-        @staticmethod
-        def delete_note(database, user_id):
-            with database.get_session() as session:
-                note = session.query(Notes).filter_by(userID=user_id).first()
+    @staticmethod       
+    def get_notes(database, user_id):
+        with database.get_session() as session:
+            notes = session.query(Notes).filter_by(userID=user_id).all()
+        return notes
+    
+    # return the number of current notes 
+    @staticmethod
+    def get_num_of_notes(database, user_id):
+        with database.get_session() as session:
+            num_notes = session.query(Notes).filter_by(userID=user_id).all()
+        return len(num_notes)
+    
+    # delete note
+    @staticmethod
+    def delete_note(database, user_id, note_id):
+        with database.get_session() as session:
+            note = session.query(Notes).filter_by(userID=user_id, noteID=note_id).first()
             session.delete(note)
 
-        # change note name and text
-        @staticmethod
-        def update_task(database, user_id, title, text):
-            with database.get_session() as session:
-                note = session.query(Notes).filter_by(userID=user_id).first()
-                note.note_name = title
-                note.note_text = text
+    # change note name and text
+    @staticmethod
+    def update_task(database, user_id, note_id, title, text):
+        with database.get_session() as session:
+            note = session.query(Notes).filter_by(userID=user_id, noteID=note_id).first()
+            note.note_name = title
+            note.note_text = text

@@ -153,4 +153,14 @@ class Methods:
                                         width=50, height=15)
         button_no.grid(row=1, column=0, padx=15, sticky='e')
 
+
+    def get_contrasting_text_color(self, bg_color):
+        # Convert hex color to RGB
+        bg_color = bg_color.lstrip('#')
+        r, g, b = int(bg_color[0:2], 16), int(bg_color[2:4], 16), int(bg_color[4:6], 16)
+        # Calculate brightness
+        brightness = (r * 299 + g * 587 + b * 114) / 1000
+        # Return black for bright backgrounds, white for dark backgrounds
+        return "black" if brightness > 128 else "white"
+
         
