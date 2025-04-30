@@ -1,3 +1,4 @@
+from datetime import datetime
 import customtkinter as ctk 
 
 class Methods:
@@ -13,19 +14,21 @@ class Methods:
 
     # Fil grid with colors    
     def main_fill_grid(self, window, color):
+
         for i in range(5):
                 for j in range(5):
                     color = ctk.CTkLabel(window, fg_color=color, text='')
                     color.grid(row=i, column=j,  sticky='news')
 
     # Configure grid layouts
-    def grid_configure(self, window, rows, cols, minsize=None):
+    def grid_configure(self, window, rows, cols, minsize=None, weight=1, uniform='a'):
+
         # Configure rows
         for i in range(rows):
-            window.rowconfigure(i, weight=1, uniform='a', minsize=minsize)
+            window.rowconfigure(i, weight=weight, uniform=uniform, minsize=minsize)
         # Configure columns
         for j in range(cols):
-            window.columnconfigure(j, weight=1, uniform='a', minsize=minsize)
+            window.columnconfigure(j, weight=weight, uniform=uniform, minsize=minsize)
 
     # Center window
     def center_window(self, window, width, height):
@@ -66,6 +69,7 @@ class Methods:
 
     # return color choice based on current light or dark setting
     def color_choice(self):
+
         current_color = ''
         current_mode = ctk.get_appearance_mode()
         if current_mode == 'Light':
@@ -75,7 +79,8 @@ class Methods:
         return current_color
     
     # text length warning
-    def check_text_length_warning(self, text, max_length, min_length, method):
+    def check_text_length_warning(self, text, max_length, min_length, method=None, m_param=True):
+
         if len(text) > max_length:
             warning = ctk.CTkToplevel()
             warning.title='Warning'
@@ -104,10 +109,25 @@ class Methods:
             button_close = ctk.CTkButton(warning, text='Close', command=warning.destroy, 
                                          width=50, height=15)
             button_close.grid(row=1, column=0, padx=2)
-        else:
-
+        elif method and m_param:
             return method(text)
+        elif method and not m_param:
+            print('returning just method')
+            return method()
+        else:
+            return text
 
+    # return corrected date format
+    def reformat_date(self, date_input):
+
+        # Check if the input is a string and parse it into a datetime object
+        if isinstance(date_input, str):
+            date_input = datetime.strptime(date_input, '%Y-%m-%d %H:%M:%S.%f')  # Adjust format as needed
+
+        # Format the datetime object into the desired format (e.g., DD-MM-YYYY)
+        date = date_input.strftime('%d-%m-%Y')
+        return date
+    
     # method for making sure you want something deleted before completing transaction    
     def are_you_sure(self, curr_frame=None, restore_frame=None, method=None, method_two=None, method_three=None, 
                      m_args=(), m_two_args=(), restore_frame_kwargs={}):
@@ -155,6 +175,7 @@ class Methods:
 
 
     def get_contrasting_text_color(self, bg_color):
+
         # Convert hex color to RGB
         bg_color = bg_color.lstrip('#')
         r, g, b = int(bg_color[0:2], 16), int(bg_color[2:4], 16), int(bg_color[4:6], 16)

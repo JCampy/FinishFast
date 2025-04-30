@@ -49,8 +49,12 @@ class NotesView:
                                         text=note.note_name, font=('', 14,'bold'))
                 note_name.grid(row=0, column=0, sticky='w', padx=5, pady=5)
 
+                #note_created= ctk.CTkLabel(single_note_frame, bg_color='transparent', fg_color='transparent', 
+                #                    font=('', 14,'bold'), text=self.m.reformat_date(note.date_created))
+                #note_created.grid(row=0, column=0, sticky='w', padx=(75, 0), pady=5)
+
                 note_text = ctk.CTkLabel(single_note_frame, bg_color='transparent', fg_color='transparent',
-                                        text=note.note_text, wraplength=375)
+                                        text=note.note_text, wraplength=370)
                 note_text.grid(row=1, column=0, sticky='w', padx=5, pady=5)
 
                 self.check_notes_grid(self.notes_frame)
@@ -76,7 +80,7 @@ class NotesView:
                                     fg_color='transparent')
         self.notes_frame.grid(row=4, column=0, rowspan=5, columnspan=3, sticky='news', pady=5, padx=5)
 
-        self.m.grid_configure(self.notes_frame, self.rows, self.cols)
+        self.m.grid_configure(self.notes_frame, self.rows, self.cols, None, None, None)
 
     def add_note_popup(self):
         # Create the popup window
@@ -124,18 +128,23 @@ class NotesView:
                                     text=new_note['note_name'], font=('', 14,'bold'))
             note_name.grid(row=0, column=0, sticky='w', padx=5, pady=5)
 
+            #note_created= ctk.CTkLabel(single_note_frame, bg_color='transparent', fg_color='transparent', 
+            #                        font=('', 14,'bold'), text=self.m.reformat_date(new_note['date_created']))
+            #note_created.grid(row=0, column=0, sticky='w', padx=(75, 0), pady=5)
+
             note_text = ctk.CTkLabel(single_note_frame, bg_color='transparent', fg_color='transparent',
-                                    text=new_note['note_text'], wraplength=375)
+                                    text=new_note['note_text'], wraplength=370)
             note_text.grid(row=1, column=0, sticky='w', padx=5, pady=5)
 
             # check notes frame and update number of notes
             if self.get_num_notes == (self.rows*self.cols):
                 self.rows += 1
-                self.update_notes_grid(self.notes_frame)
+                self.update_notes_grid(self.notes_frame, None, None)
             self.get_num_notes += 1
 
 
-        done_button = ctk.CTkButton(popup, text="Done", fg_color=self.MAIN_COLOR, command=on_done)
+        done_button = ctk.CTkButton(popup, text="Done", fg_color=self.MAIN_COLOR,
+                                    command=lambda: self.m.check_text_length_warning(title_entry.get(), 30, 0, on_done, False))
         done_button.grid(row=5, column=0, padx=10, pady=10, sticky="w")
 
         # Cancel Button
@@ -149,21 +158,21 @@ class NotesView:
     def check_notes_grid(self, window):
         if self.get_num_notes == (self.rows*self.cols):
             self.rows += 1
-            self.update_notes_grid(window)
+            self.update_notes_grid(window, None, None)
         elif self.get_num_notes > (self.rows*self.cols):
             while self.get_num_notes > (self.rows*self.cols):
                 self.rows += 1
-                self.update_notes_grid(window)
+                self.update_notes_grid(window, None, None)
 
     # updating grid
-    def update_notes_grid(self, window):
+    def update_notes_grid(self, window, weight=1, uniform='a'):
     
         # Update rows when adding during app usage
         for row in range(self.rows):
-            window.rowconfigure(row, weight=1, uniform='a')
+            window.rowconfigure(row, weight=weight, uniform=uniform)
         # Update columns
         for col in range(self.cols):
-            window.columnconfigure(col, weight=1, uniform='a')
+            window.columnconfigure(col, weight=weight, uniform=uniform)
 
     # shift task after deletion
     def shift_tasks(self):
@@ -178,7 +187,7 @@ class NotesView:
         new_rows = (note_count + self.cols - 1) // self.cols  # Calculate required rows
         if new_rows < self.rows:  # Only shrink the grid if necessary
             self.rows = new_rows
-            self.update_notes_grid(self.notes_frame)
+            self.update_notes_grid(self.notes_frame, None, None)
 
     # delete task and call helper methods
     def delete_note(self, frame, user_id, note_id):

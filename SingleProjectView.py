@@ -63,11 +63,7 @@ class SingleProjectView:
             project_id_label.grid(row=5, column=2, columnspan=2, sticky='se', padx=5, pady=0)
 
             # Creation Date
-            created_date = project.date_created[:10]
-            year = created_date[:4]
-            month = created_date[5:7]
-            day = created_date[8:10]
-            corrected_date = month + '-' + day + '-' + year
+            corrected_date = self.m.reformat_date(project.date_created)
 
         # initialize task_view 
         self.task_view = TaskView(self.db, self.curr_user, self.p_id, self.s_project_frame)

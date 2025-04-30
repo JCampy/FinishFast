@@ -13,6 +13,7 @@ class ProjectsView:
     TEXT_COLOR = ('black', 'white')
 
     def __init__(self, window, database, curr_user, on_proj_selected):
+
         self.window = window
         self.db = database
         self.curr_user = curr_user
@@ -31,6 +32,7 @@ class ProjectsView:
 
     # Projects
     def get_current_projects(self, curr_user):
+
         project_count = 0
 
         # Get current projects from database
@@ -89,6 +91,7 @@ class ProjectsView:
     
     # Single Project Frame
     def single_project_frame(self, project_id, proj_button):
+
         self.on_project_selected(project_id, self.projects_frame, self, proj_button)
 
 
@@ -123,6 +126,7 @@ class ProjectsView:
 
     # Check grid at start of app when loading projects
     def check_project_grid(self, window):
+        
         if self.num_of_projects == (self.rows*self.cols):
             self.rows += 1
             self.updateGrid(window)
@@ -133,6 +137,7 @@ class ProjectsView:
 
     # shifts projects down when one is removed
     def shift_projects(self, proj_button):
+        
         proj_button.destroy()
         projects_count = 0
         for widget in self.projects_frame.winfo_children():

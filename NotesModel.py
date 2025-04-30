@@ -4,6 +4,7 @@ import uuid
 
 class NotesModel:
     def __init__(self, db: Database):
+
         self.db = db
 
     @classmethod
@@ -29,13 +30,14 @@ class NotesModel:
                     "userID" : new_note.userID,
                     "note_name" : new_note.note_name,
                     "note_text" : new_note.note_text,
-                    "date_create" : new_note.date_created
+                    "date_created" : new_note.date_created
                 }
                 return note_data
 
      # get all notes for current user 
     @staticmethod       
     def get_notes(database, user_id):
+
         with database.get_session() as session:
             notes = session.query(Notes).filter_by(userID=user_id).all()
         return notes
@@ -43,6 +45,7 @@ class NotesModel:
     # return the number of current notes 
     @staticmethod
     def get_num_of_notes(database, user_id):
+
         with database.get_session() as session:
             num_notes = session.query(Notes).filter_by(userID=user_id).all()
         return len(num_notes)
@@ -50,6 +53,7 @@ class NotesModel:
     # delete note
     @staticmethod
     def delete_note(database, user_id, note_id):
+
         with database.get_session() as session:
             note = session.query(Notes).filter_by(userID=user_id, noteID=note_id).first()
             session.delete(note)
@@ -57,6 +61,7 @@ class NotesModel:
     # change note name and text
     @staticmethod
     def update_task(database, user_id, note_id, title, text):
+        
         with database.get_session() as session:
             note = session.query(Notes).filter_by(userID=user_id, noteID=note_id).first()
             note.note_name = title
