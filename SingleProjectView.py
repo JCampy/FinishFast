@@ -103,11 +103,6 @@ class SingleProjectView:
         # task view methods
         self.task_view.task_frame()
         self.task_view.get_current_task()
-
-        # DELETE THIS 
-        frame_width = self.s_project_frame.winfo_width()
-        frame_height=self.s_project_frame.winfo_height()
-        print(f'Frame Size: {frame_width}x{frame_height}')
        
     def close_project_frame(self):
         self.s_project_frame.destroy()

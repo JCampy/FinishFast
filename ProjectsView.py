@@ -3,6 +3,7 @@ from ProjectsModel import ProjectsModel, Projects
 from Methods import Methods
 from SingleProjectView import SingleProjectView
 from Testing import Testing
+from ProfileView import ProfileView
 from CTkColorPicker import *
 
 class ProjectsView:
@@ -12,12 +13,13 @@ class ProjectsView:
     THIRD_GRAY = 'gray14'
     TEXT_COLOR = ('black', 'white')
 
-    def __init__(self, window, database, curr_user, on_proj_selected):
+    def __init__(self, window, database, curr_user, on_proj_selected, profile_view):
 
         self.window = window
         self.db = database
         self.curr_user = curr_user
         self.on_project_selected = on_proj_selected
+        self.pv = profile_view
         self.current_color = "#000000"
 
         self.test = Testing()
@@ -114,6 +116,7 @@ class ProjectsView:
             self.rows += 1
             self.update_project_grid(self.projects_frame)
         self.num_of_projects += 1
+        self.pv.update_stats(num_projects=True)
 
     def update_project_grid(self, window):
         
@@ -151,6 +154,9 @@ class ProjectsView:
         if new_rows < self.rows:  # Only shrink the grid if necessary
             self.rows = new_rows
             self.update_project_grid(self.projects_frame)
+
+        # Easiest place to know if a project is deleted. 
+        self.pv.update_stats(num_projects=True)
 
     # select color for project buttons
     def ask_color(self):

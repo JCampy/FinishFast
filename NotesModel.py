@@ -7,6 +7,7 @@ class NotesModel:
 
         self.db = db
 
+    # create a new note and return its values
     @classmethod
     def create_note(cls, database, owner, title, text):
         

@@ -4,6 +4,7 @@ from PIL import Image
 from Testing import Testing
 from SignUp import SignUp
 from Database import Users
+from UserModel import UserModel
 
 class Login:
 
@@ -18,17 +19,16 @@ class Login:
     
     # Call the login window method in ProjectManager.py when the login button is clicked
     def login_success(self, app, login, password):
-        with self.db.get_session() as session:
-            user = session.query(Users).filter_by(email=login.get()).first()
-            current_user = user.userID
-            if user:
-                if bcrypt.checkpw(password.get().encode('utf-8'), user.password):
-                    print('Correct Password')
-                    app.create_main_window(current_user)
-                else:
-                    print('Incorrect Password')
+        user = UserModel.check_pass(self.db, login.get())
+        current_user = user[2]
+        if user[0]:
+            if bcrypt.checkpw(password.get().encode('utf-8'), user[1]):
+                print('Correct Password')
+                app.create_main_window(current_user)
             else:
-                print('User not found')
+                print('Incorrect Password')
+        else:
+            print('User not found')
 
     
     def login_display(self, window, app): 

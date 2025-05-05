@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from Methods import Methods
 from NotesModel import NotesModel
+from ProfileView import ProfileView
 
 
 class NotesView:
@@ -10,11 +11,12 @@ class NotesView:
     THIRD_GRAY = 'gray14'
     TEXT_COLOR = ('black', 'white')
 
-    def __init__(self, window, database, curr_user):
+    def __init__(self, window, database, curr_user, profile_view):
 
         self.window = window
         self.db = database
         self.curr_user = curr_user
+        self.pv = profile_view
         self.cols = 1
         self.rows = 5
         self.get_num_notes = NotesModel.get_num_of_notes(self.db, self.curr_user)
@@ -141,6 +143,7 @@ class NotesView:
                 self.rows += 1
                 self.update_notes_grid(self.notes_frame, None, None)
             self.get_num_notes += 1
+            self.pv.update_stats(num_notes=True)
 
 
         done_button = ctk.CTkButton(popup, text="Done", fg_color=self.MAIN_COLOR,
@@ -197,3 +200,4 @@ class NotesView:
         self.shift_tasks()
         self.get_num_notes -= 1
         NotesModel.delete_note(self.db, user_id, note_id)
+        self.pv.update_stats(num_notes=True)

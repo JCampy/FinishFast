@@ -4,8 +4,6 @@ from sqlalchemy import create_engine, Column, LargeBinary, Boolean, Integer, Str
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from pathlib import Path
-import uuid
-import bcrypt
 
 # setting up database file creation 
 project_folder = Path(__file__).parent 

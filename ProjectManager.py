@@ -8,7 +8,7 @@ from MainView import MainView
 from Database import Database
 from SignUp import SignUp
 from Methods import Methods
-
+ 
 class ProjectManager:
     
     MAIN_COLOR = '#39BCCE'

@@ -4,6 +4,7 @@ from PIL import Image
 from Testing import Testing
 from Database import Database, Users
 import bcrypt
+from UserModel import UserModel
 
 class SignUp:
 
@@ -21,17 +22,9 @@ class SignUp:
         app.sign_up_window()
     
     def user_signup(self, app, window, user_data):
-        with self.db.get_session() as session:
-            new_user = Users(
-                userID=str(uuid.uuid4()),
-                username=user_data['username'],
-                first_name=user_data['first_name'],
-                last_name=user_data['last_name'],
-                email=user_data['email'],
-                password=user_data['password'],
-            )
-            session.add(new_user)
-        
+        new_user = UserModel.create_user(self.db, user_data['first_name'], user_data[last_name],
+                                         user_data['email'], user_data['username'],
+                                         user_data['password'])
         app.return_login(window)
 
         
@@ -101,8 +94,7 @@ class SignUp:
             'last_name': last_name_entry.get(),
             'email': email_entry.get(),
             'username': username_entry.get(),
-            'password': bcrypt.hashpw(password_entry.get().encode('utf-8'), bcrypt.gensalt()),
-            'confirm_password': bcrypt.hashpw(confirm_password_entry.get().encode('utf-8'), bcrypt.gensalt())
+            'password': bcrypt.hashpw(password_entry.get().encode('utf-8'), bcrypt.gensalt())
         }
 
         # Debug: Print the user_data dictionary

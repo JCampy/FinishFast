@@ -173,7 +173,7 @@ class Methods:
                                         width=50, height=15)
         button_no.grid(row=1, column=0, padx=15, sticky='e')
 
-
+    # Get's color to ensure text will constrast the chosen color for the project/task
     def get_contrasting_text_color(self, bg_color):
 
         # Convert hex color to RGB

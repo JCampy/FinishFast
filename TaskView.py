@@ -104,7 +104,7 @@ class TaskView():
         # Task Description Input
         task_desc_label = ctk.CTkLabel(popup, text="Task Description:", font=('', 14))
         task_desc_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
-        task_desc_entry = ctk.CTkTextbox(popup, width=150, height=75, wrap='word')
+        task_desc_entry = ctk.CTkTextbox(popup, width=150, height=300, wrap='word')
         task_desc_entry.grid(row=1, column=1, padx=10, pady=10)
 
         # Task Priority Slider
