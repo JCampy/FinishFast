@@ -22,7 +22,7 @@ class SignUp:
         app.sign_up_window()
     
     def user_signup(self, app, window, user_data):
-        new_user = UserModel.create_user(self.db, user_data['first_name'], user_data[last_name],
+        new_user = UserModel.create_user(self.db, user_data['first_name'], user_data['last_name'],
                                          user_data['email'], user_data['username'],
                                          user_data['password'])
         app.return_login(window)

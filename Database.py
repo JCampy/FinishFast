@@ -22,8 +22,11 @@ class Users(Base):
         last_name = Column(String, nullable=False)
         email = Column(String, unique=True, nullable=False)
         password = Column(LargeBinary(64), nullable=False)
+        filename = Column(String, nullable=True)
+        filepath= Column(String, nullable=True)
         notes = relationship('Notes', back_populates='users') 
         projects = relationship('Projects', back_populates='users')
+        
 
 class Projects(Base):
     __tablename__ = 'projects'

@@ -11,7 +11,7 @@ class UserModel:
 
     # create a new user and return its value
     @classmethod
-    def create_user(cls, database, f_name, l_name, email, username, password, cpassword):
+    def create_user(cls, database, f_name, l_name, email, username, password):
         
         db = database
 
@@ -49,3 +49,21 @@ class UserModel:
                 return (user, user.password, user.userID)  # Return user details if found
             else:
                 return (None, None, None)  # Return None values if no user is found
+
+    # change profile photo        
+    @staticmethod
+    def update_profile_photo(database, curr_user, filename, filepath):
+        with database.get_session() as session:
+            user = session.query(Users).filter_by(userID=curr_user).first()
+            user.filename = filename
+            user.filepath = filepath
+            session.commit()
+
+    @staticmethod
+    def get_profile_photo_path(database, curr_user):
+        with database.get_session() as session:
+            user = session.query(Users).filter_by(userID=curr_user).first()
+            if user:
+                return user.filepath
+
+            return user.filepath

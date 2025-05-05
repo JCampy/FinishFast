@@ -64,6 +64,7 @@ class ProjectsModel:
         with database.get_session() as session:
             project = session.query(Projects).filter_by(projectID=project_id).first()
             project.project_name = title
+            session.commit()
         
 def project_dict(p): # might use it might not
     

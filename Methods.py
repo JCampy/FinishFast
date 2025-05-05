@@ -184,4 +184,9 @@ class Methods:
         # Return black for bright backgrounds, white for dark backgrounds
         return "black" if brightness > 128 else "white"
 
+    # convert hex to rgba
+    def hex_to_rgba(self, hex_color, alpha=255):
+        hex_color = hex_color.lstrip('#')
+        return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4)) + (alpha,)
+
         
