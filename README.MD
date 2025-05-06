@@ -54,32 +54,42 @@ This project has been a great opportunity to push my limits, experiment with new
 
 # Some Screen shots of the application running
 
-**Login screen**
+**Login screen ↓**
+
 ![Project Screenshot](images/ff%20-%20login.PNG)
 
-**Sign up screen**
+**Sign up screen ↓**
+
 ![Project Screenshot](images/ff%20-%20signup.PNG)
 
-**Main view of project**
+**Main view of project ↓**
+
 ![Project Screenshot](images/ff%20-%20main%20view.PNG)
 
-**Ading a project**
+**Ading a project ↓**
+
 ![Project Screenshot](images/ff%20-%20adding%20project.PNG)
 
-**Note adding window**
+**Note adding window ↓**
+
 ![Project Screenshot](images/ff%20-%20note%20window.PNG)
 
-**Main view with a note and a project**
+**Main view with a note and a project ↓**
+
 ![Project Screenshot](images/ff%20-%20main%20view%20note%20project.PNG)
 
-**Project window**
+**Project window ↓**
+
 ![Project Screenshot](images/ff%20-%20projects%20view.PNG)
 
-**Adding task window**
+**Adding task window ↓**
+
 ![Project Screenshot](images/ff%20-%20task%20window.PNG)
 
-**Project window with task**
+**Project window with task ↓**
+
 ![Project Screenshot](images/ff%20-%20project%20view%20with%20task.PNG)
 
-**Task information window**
+**Task information window ↓**
+
 ![Project Screenshot](images/ff%20-%20task%20information.PNG)
