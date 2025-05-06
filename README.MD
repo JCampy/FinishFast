@@ -66,7 +66,7 @@ This project has been a great opportunity to push my limits, experiment with new
 
 ![Project Screenshot](images/ff%20-%20main%20view.PNG)
 
-**Ading a project ↓**
+**Adding a project ↓**
 
 ![Project Screenshot](images/ff%20-%20adding%20project.PNG)
 
