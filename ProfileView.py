@@ -26,7 +26,7 @@ class ProfileView:
         self.user_name = curr_user
         self.num_projects = ProjectsModel.num_of_projects(database, curr_user)
         self.num_notes = NotesModel.get_num_of_notes(database, curr_user)
-        self.last_login = 'Hello'
+        self.last_login = 'W.I.P.'
 
         self.m = Methods()
 

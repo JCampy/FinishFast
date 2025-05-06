@@ -28,6 +28,9 @@ Learned how to use SQLAlchemy ORM to simplify database operations and make the a
 **Session Management:**
 Explored how to manage database sessions effectively, ensuring efficient resource usage and avoiding common pitfalls like DetachedInstanceError.
 
+**Database Relationships:**
+Focused on the relationships between tables within my database to ensure every relationship was set to the correct type.
+
 **Dynamic Grid Layouts:**
 Implemented a dynamic grid system to display projects, which adjusts automatically based on the number of projects.
 Learned how to calculate grid positions and handle layout updates dynamically.
@@ -48,3 +51,16 @@ Strengthened knowledge of CRUD (Create, Read, Update, Delete) operations and how
 
 **Personal Growth:**
 This project has been a great opportunity to push my limits, experiment with new tools, and build something practical for personal use.
+
+# Some Screen shots of the application running
+
+![Project Screenshot](images/ff%20-%20login.PNG)
+![Project Screenshot](images/ff%20-%20signup.PNG)
+![Project Screenshot](images/ff%20-%20main%20view.PNG)
+![Project Screenshot](images/ff%20-%20adding%20project.PNG)
+![Project Screenshot](images/ff%20-%20note%20window.PNG)
+![Project Screenshot](images/ff%20-%20main%20view%20note%20project.PNG)
+![Project Screenshot](images/ff%20-%20projects%20view.PNG)
+![Project Screenshot](images/ff%20-%20task%20window.PNG)
+![Project Screenshot](images/ff%20-%20project%20view%20with%20task.PNG)
+![Project Screenshot](images/ff%20-%20task%20information.PNG)

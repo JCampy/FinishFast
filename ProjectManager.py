@@ -115,8 +115,8 @@ class ProjectManager:
         #self.testing = Testing()
         #self.testing.fill_grid(self.main_window)
 
-        self.menu_bar = MenuBar(main_window)
-        self.menu_bar.add_menu_bar()
+        #self.menu_bar = MenuBar(main_window)
+        #self.menu_bar.add_menu_bar()
 
         # main view
         self.main_view = MainView(main_window, self.db, curr_user)

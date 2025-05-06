@@ -43,14 +43,14 @@ class SignUp:
                             text_color='black', border_color=(self.SECONDARY_WHITE, self.THIRD_GRAY),
                             bg_color='transparent', corner_radius=20,
                             fg_color='#cccbc8', height=40)
-        first_name_entry.grid(row=1, column=0, columnspan=2, sticky='ew', padx=(25, 0))
+        first_name_entry.grid(row=1, column=0, columnspan=2, sticky='ew', padx=25)
 
         #Last Name
         last_name_entry = ctk.CTkEntry(window, placeholder_text="Last Name",
                             text_color='black', border_color=(self.SECONDARY_WHITE, self.THIRD_GRAY),
                             bg_color='transparent', corner_radius=20,
                             fg_color='#cccbc8', height=40)
-        last_name_entry.grid(row=1, column=3, columnspan=2, sticky='ew', padx=(0, 25))
+        last_name_entry.grid(row=1, column=3, columnspan=2, sticky='ew', padx=25)
 
         #Email
         email_entry = ctk.CTkEntry(window, placeholder_text="Email",
@@ -71,20 +71,25 @@ class SignUp:
                             text_color='black', border_color=(self.SECONDARY_WHITE, self.THIRD_GRAY),
                             bg_color='transparent', corner_radius=20,
                             fg_color='#cccbc8', show='*', height=40)
-        password_entry.grid(row=4, column=0, columnspan=2, sticky='new', padx=(25, 0))
+        password_entry.grid(row=4, column=0, columnspan=2, sticky='new', padx=25)
 
         #Confirm Password
         confirm_password_entry = ctk.CTkEntry(window, placeholder_text="Confirm Password",
                             text_color='black', border_color=(self.SECONDARY_WHITE, self.THIRD_GRAY),
                             bg_color='transparent', corner_radius=20,
                             fg_color='#cccbc8', show='*', height=40)
-        confirm_password_entry.grid(row=4, column=4, columnspan=2, sticky='new', padx=(0, 25))
+        confirm_password_entry.grid(row=4, column=4, columnspan=2, sticky='new', padx=25)
 
         #Sign Up Button
         signup_button = ctk.CTkButton(window, text='Sign Up', bg_color='transparent', fg_color=self.MAIN_COLOR, corner_radius=20,
                                     command=lambda: self.handle_signup(app, window, first_name_entry, last_name_entry, email_entry, username_entry,
                                     password_entry, confirm_password_entry), height=40)
-        signup_button.grid(row=5, column=0, columnspan=5, sticky='ew', padx=25, pady=(0, 15))
+        signup_button.grid(row=5, column=0, columnspan=2, sticky='ew', padx=25, pady=(0, 15))
+
+        # Cancel Button
+        cancel_button = ctk.CTkButton(window, text='Cancel', bg_color='transparent', fg_color='red', corner_radius=20,
+                                    command=lambda: app.return_login(window), height=40)
+        cancel_button.grid(row=5, column=4, columnspan=2, sticky='ew', padx=25, pady=(0, 15))
 
     def passwords_match(self, password_entry, confirm_password_entry):
         # Get the values from the password fields

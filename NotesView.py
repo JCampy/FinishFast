@@ -56,8 +56,8 @@ class NotesView:
                 #note_created.grid(row=0, column=0, sticky='w', padx=(75, 0), pady=5)
 
                 note_text = ctk.CTkLabel(single_note_frame, bg_color='transparent', fg_color='transparent',
-                                        text=note.note_text, wraplength=370)
-                note_text.grid(row=1, column=0, sticky='w', padx=5, pady=5)
+                                        text=note.note_text, wraplength=370, justify="left")
+                note_text.grid(row=1, column=0, sticky='nw', padx=5, pady=5)
 
                 self.check_notes_grid(self.notes_frame)
 
@@ -82,14 +82,15 @@ class NotesView:
                                     fg_color='transparent')
         self.notes_frame.grid(row=4, column=0, rowspan=5, columnspan=3, sticky='news', pady=5, padx=5)
 
-        self.m.grid_configure(self.notes_frame, self.rows, self.cols, None, None, None)
+        self.m.grid_configure(self.notes_frame, self.rows, self.cols, None, 1, None)
 
     def add_note_popup(self):
         # Create the popup window
         popup = ctk.CTkToplevel(self.window)
         popup.title("Add Note")
-        popup.geometry("400x300")
+        popup.geometry("300x300")
         popup.attributes("-topmost", True)
+        self.m.center_window(popup, 300, 300)
         popup.resizable(False, False)
 
         self.m.grid_configure(popup, 6, cols=2)
@@ -116,7 +117,7 @@ class NotesView:
             row_pos = self.get_num_notes // self.cols
             col_pos = self.get_num_notes % self.cols
 
-            single_note_frame = ctk.CTkFrame(self.notes_frame, bg_color='transparent', fg_color='transparent')
+            single_note_frame = ctk.CTkFrame(self.notes_frame, bg_color='transparent', fg_color='transparent', width=300)
             single_note_frame.grid(row=row_pos, column=col_pos, sticky='ew')
 
             self.m.grid_configure(single_note_frame, 2, 1)
@@ -135,8 +136,8 @@ class NotesView:
             #note_created.grid(row=0, column=0, sticky='w', padx=(75, 0), pady=5)
 
             note_text = ctk.CTkLabel(single_note_frame, bg_color='transparent', fg_color='transparent',
-                                    text=new_note['note_text'], wraplength=370)
-            note_text.grid(row=1, column=0, sticky='w', padx=5, pady=5)
+                                    text=new_note['note_text'], wraplength=370, justify='left')
+            note_text.grid(row=1, column=0, sticky='nw', padx=5, pady=5)
 
             # check notes frame and update number of notes
             if self.get_num_notes == (self.rows*self.cols):
