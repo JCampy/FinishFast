@@ -1,3 +1,5 @@
+import re
+from tkinter import messagebox
 import uuid
 import customtkinter as ctk
 from PIL import Image
@@ -84,15 +86,54 @@ class SignUp:
                                     password_entry, confirm_password_entry), height=40)
         signup_button.grid(row=5, column=0, columnspan=5, sticky='ew', padx=25, pady=(0, 15))
 
+    def passwords_match(self, password_entry, confirm_password_entry):
+        # Get the values from the password fields
+        password = password_entry.get()
+        confirm_password = confirm_password_entry.get()
+
+        # Check if the passwords match
+        if password == confirm_password:
+            return True
+        else:
+            messagebox.showerror("Error", "Passwords do not match. Please try again.")
+            return False
+        
+    def is_valid_email(self, email_entry):
+        # Get the email value from the entry field
+        email = email_entry.get()
+
+        # Regular expression for validating an email address
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+        # Check if the email matches the regex
+        if re.match(email_regex, email):
+            return True
+        else:
+            messagebox.showerror("Error", "Invalid email address. Please enter a valid email.")
+            return False
+        
     # Handle the input of data from the user when the sign up button is clicked
     def handle_signup(self, app, window, first_name_entry, last_name_entry, email_entry, username_entry,
                      password_entry, confirm_password_entry):
         
+        # Check if passwords match
+        if not self.passwords_match(password_entry, confirm_password_entry):
+            return  # Stop the signup process if passwords don't match
+        
+        if not self.is_valid_email(email_entry):
+            return # If email is invalid stop the signup process
+        
+        if UserModel.does_email_exist(self.db, email_entry.get()):
+            return # Checking if email already exist
+        
+        if UserModel.does_username_exist(self.db, username_entry.get()):
+            return # checking if user name already exist
+
         # Create the user_data dictionary when the button is clicked
         user_data = {
-            'first_name': first_name_entry.get(),
-            'last_name': last_name_entry.get(),
-            'email': email_entry.get(),
+            'first_name': first_name_entry.get().strip(),
+            'last_name': last_name_entry.get().strip(),
+            'email': email_entry.get().strip().lower(),
             'username': username_entry.get(),
             'password': bcrypt.hashpw(password_entry.get().encode('utf-8'), bcrypt.gensalt())
         }

@@ -5,6 +5,7 @@ from Testing import Testing
 from SignUp import SignUp
 from Database import Users
 from UserModel import UserModel
+from tkinter import messagebox
 
 class Login:
 
@@ -26,9 +27,9 @@ class Login:
                 print('Correct Password')
                 app.create_main_window(current_user)
             else:
-                print('Incorrect Password')
+                messagebox.showerror("Error", "Incorrect Password")
         else:
-            print('User not found')
+            messagebox.showerror("Error", "Incorrect email")
 
     
     def login_display(self, window, app): 

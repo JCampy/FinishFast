@@ -78,9 +78,49 @@ class TasksModel:
             return len(task)
         
         @staticmethod
+        def check_completed(database, project_id, task_id):
+            with database.get_session() as session:
+                task = session.query(Tasks).filter_by(projectID=project_id, taskID=task_id).first()
+                return task.completed
+        
+        @staticmethod
         def delete_all_tasks(database, project_id):
             with database.get_session() as session:
                 tasks = session.query(Tasks).filter_by(projectID=project_id).all()
                 for task in tasks:
                     session.delete(task)
-                
+
+        @staticmethod
+        def update_completed_status(database, project_id, task_id, status):
+            with database.get_session() as session:
+                tasks = session.query(Tasks).filter_by(projectID=project_id, taskID=task_id).first()
+                if tasks:
+                    tasks.completed = status
+                    session.commit()
+        
+        
+        @staticmethod
+        def sort_by(database, project_id, sortby):
+            with database.get_session() as session:
+                if sortby == "Date_Created":
+                    task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.date_created).all()
+                    return task
+                elif sortby == "Default":
+                    task = session.query(Tasks).filter_by(projectID=project_id).all()
+                elif sortby == "Priority ↑":
+                    task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.priority).all()
+                    return task
+                elif sortby == "Priority ↓":
+                    task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.priority.desc()).all()
+                    return task
+                elif sortby == "Difficulty ↑":
+                    task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.difficulty).all()
+                    return task
+                elif sortby == "Difficulty ↓":
+                    task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.difficulty.desc()).all()
+                    return task
+                elif sortby == "Completed":
+                    task = session.query(Tasks).filter_by(projectID=project_id, completed=True).all()
+                    return task
+                else: 
+                    return

@@ -1,7 +1,9 @@
+from tkinter import messagebox
 import customtkinter as ctk
+from sqlalchemy import func
 from Database import Database, Users
 import uuid
-import bcrypt
+
 
 class UserModel:
 
@@ -67,3 +69,24 @@ class UserModel:
                 return user.filepath
 
             return user.filepath
+        
+    @staticmethod
+    def does_email_exist(database, email):
+        with database.get_session() as session:
+            user = session.query(Users).filter_by(email=email).first()
+            if user:
+                messagebox.showerror(f'Error', 'Email already exist')
+                return True
+            else:
+                return False
+
+    @staticmethod
+    def does_username_exist(database, username):
+        normalized_username = username.strip().lower()  # Normalize to lowercase for comparison
+        with database.get_session() as session:
+            user = session.query(Users).filter(func.lower(Users.username) == normalized_username).first()
+            if user:
+                messagebox.showerror('Error', 'Username already exists')
+                return True
+            else:
+                return False

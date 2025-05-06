@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from pathlib import Path
 
+
 # setting up database file creation 
 project_folder = Path(__file__).parent 
 db_path = project_folder / 'ffdb.db'

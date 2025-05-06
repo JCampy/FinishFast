@@ -188,5 +188,10 @@ class Methods:
     def hex_to_rgba(self, hex_color, alpha=255):
         hex_color = hex_color.lstrip('#')
         return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4)) + (alpha,)
+    
+    # clear frame or window
+    def clear_frame(self, frame):
+        for widget in frame.winfo_children():
+            widget.destroy()
 
         

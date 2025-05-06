@@ -65,22 +65,23 @@ class SingleProjectView:
             # Creation Date
             corrected_date = self.m.reformat_date(project.date_created)
 
-        # initialize task_view 
-        self.task_view = TaskView(self.db, self.curr_user, self.p_id, self.s_project_frame)
-
-        creation_date_label = ctk.CTkLabel(self.s_project_frame, text=f"Created On: {corrected_date}",
-                                            text_color=self.TEXT_COLOR, font=('', 16))
-        creation_date_label.grid(row=0, column=0, columnspan=2, sticky='sw', padx=10, pady=5)
-
         # get current dark or light mode for variables 
         current_color = Methods().color_choice()
-
+        
         # Radial Progress bar using ATK
         r_progress_bar = atk.RadialProgressbar(self.s_project_frame, size=190, bg=self.MAIN_COLOR, fg='green', text_fg=self.MAIN_COLOR,
                                                 parent_bg=current_color, font_size_ratio=.2 )
         r_progress_bar.grid(row=0, column=2, columnspan=2, rowspan=2, sticky='news', padx=20, pady=10)
 
+        # initialize task_view 
+        self.task_view = TaskView(self.db, self.curr_user, self.p_id, self.s_project_frame, r_progress_bar)
+
+        creation_date_label = ctk.CTkLabel(self.s_project_frame, text=f"Created On: {corrected_date}",
+                                            text_color=self.TEXT_COLOR, font=('', 16))
+        creation_date_label.grid(row=0, column=0, columnspan=2, sticky='sw', padx=10, pady=5)
+
         r_progress_bar.set(self.task_view.get_progress()) # percentage = (Completed_Task / Task) * 100
+
         # Close single project s_project_frame view
         close_single_project_button = ctk.CTkButton(self.s_project_frame,width=12, height=8, text='close', fg_color=current_color, hover_color=current_color,
                                                     bg_color=current_color, text_color=self.MAIN_COLOR, command= self.close_project_frame)
