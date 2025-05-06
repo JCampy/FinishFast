@@ -4,7 +4,7 @@ I created this project to show case an application that could help me manage my 
 
 # How I made it
 
-The application was created using entirely Python. I used customtkinter for the GUI design and decided on using Sqlite for the database. I went with this choice because I can achieve the same results as a hosted database but instead provide more usuability for a single user as this application is not dependent on users connecting with one another (SQLALCHEMY ORM was used to make the project easy to swap over to a hosted database). It was created with the idea of being a offline application for my personal use. I decided to not use a framework because I wanted to try and see what I could achieve on my own. **The Project is still a W.I.P!**
+The application was created using entirely Python. I used customtkinter for the GUI design and decided on using Sqlite for the database. I went with this choice because I can achieve the same results as a hosted database but instead provide more usuability for a single user as this application is not dependent on users connecting with one another (SQLALCHEMY ORM was used to make the project easy to swap over to a hosted database). It was created with the idea of being a offline application for my personal use. I decided to not use a framework because I wanted to try and see what I could achieve on my own. I used mostly customtkinter for the GUI but still used aspects of normal tkinter to round out some features. **The Project is still a W.I.P!**
 
 # Features
 
@@ -54,13 +54,32 @@ This project has been a great opportunity to push my limits, experiment with new
 
 # Some Screen shots of the application running
 
+**Login screen**
 ![Project Screenshot](images/ff%20-%20login.PNG)
+
+**Sign up screen**
 ![Project Screenshot](images/ff%20-%20signup.PNG)
+
+**Main view of project**
 ![Project Screenshot](images/ff%20-%20main%20view.PNG)
+
+**Ading a project**
 ![Project Screenshot](images/ff%20-%20adding%20project.PNG)
+
+**Note adding window**
 ![Project Screenshot](images/ff%20-%20note%20window.PNG)
+
+**Main view with a note and a project**
 ![Project Screenshot](images/ff%20-%20main%20view%20note%20project.PNG)
+
+**Project window**
 ![Project Screenshot](images/ff%20-%20projects%20view.PNG)
+
+**Adding task window**
 ![Project Screenshot](images/ff%20-%20task%20window.PNG)
+
+**Project window with task**
 ![Project Screenshot](images/ff%20-%20project%20view%20with%20task.PNG)
+
+**Task information window**
 ![Project Screenshot](images/ff%20-%20task%20information.PNG)
