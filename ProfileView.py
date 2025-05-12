@@ -45,7 +45,7 @@ class ProfileView:
         self.profile_pic_frame.grid(row=0, column=0, padx=10, pady=10, sticky='n')
         self.m.grid_configure(self.profile_pic_frame, 1, 1)
 
-        self.update_profile_photo() # method for being able to dynamically update profile phot
+        self.update_profile_photo() # method for being able to dynamically update profile photo
 
         # Change profile photo button
         change_photo_button = ctk.CTkButton(profile_frame, text="Change Photo", fg_color=self.MAIN_COLOR,
@@ -151,6 +151,7 @@ class ProfileView:
                     dest_path = self.DEST_FOLDER / source_path.name # Construct the destination path
                     shutil.copy2(source_path, dest_path) # Copy the file to the destination
                     UserModel.update_profile_photo(self.db, self.curr_user, source_path.name, str(dest_path)) # adding the filename and filepath to database
+                    self.update_profile_photo()
                     messagebox.showinfo("Success", f"File saved to {dest_path}")
 
             # if it doesn't proceed as usual.
@@ -161,6 +162,7 @@ class ProfileView:
                 dest_path = self.DEST_FOLDER / source_path.name # Construct the destination path
                 shutil.copy2(source_path, dest_path) # Copy the file to the destination
                 UserModel.update_profile_photo(self.db, self.curr_user, source_path.name, str(dest_path)) # adding the filename and filepath to database
+                self.update_profile_photo()
                 messagebox.showinfo("Success", f"File saved to {dest_path}")
 
         except Exception as e:

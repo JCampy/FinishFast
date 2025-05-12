@@ -102,11 +102,12 @@ class TasksModel:
         @staticmethod
         def sort_by(database, project_id, sortby):
             with database.get_session() as session:
-                if sortby == "Date_Created":
+                if sortby == "Date Created":
                     task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.date_created).all()
                     return task
                 elif sortby == "Default":
                     task = session.query(Tasks).filter_by(projectID=project_id).all()
+                    return task
                 elif sortby == "Priority ↑":
                     task = session.query(Tasks).filter_by(projectID=project_id).order_by(Tasks.priority).all()
                     return task

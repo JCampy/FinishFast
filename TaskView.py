@@ -222,7 +222,7 @@ class TaskView():
                     remove_task.grid(row=1, column=1, sticky='ne', padx= 1, pady=1)
                     click_task = ctk.CTkButton(single_task_frame, text=task.task_name, text_color=self.m.get_contrasting_text_color(task.task_color),
                                     width=50, height=50, corner_radius=15, fg_color=task.task_color,
-                                    hover_color=task.task_color, command = lambda t_ID = task.taskID : print(t_ID))
+                                    hover_color=task.task_color, command = lambda t_ID = task.taskID : self.show_task_details(t_ID))
                     click_task._text_label.configure(wraplength=100, justify="center", padx=2, pady=2)
                     click_task.grid(row=2, column=1, sticky='nsew')
 
