@@ -52,6 +52,32 @@ Strengthened knowledge of CRUD (Create, Read, Update, Delete) operations and how
 **Personal Growth:**
 This project has been a great opportunity to push my limits, experiment with new tools, and build something practical for personal use.
 
+---
+
+# How to Run FinishFast
+
+1. **Clone the repository:**
+
+   ```sh
+   git clone https://github.com/JCampy/FinishFast.git
+   cd FinishFast
+
+   ```
+
+2. **Install the required dependencies:**
+
+   ```sh
+   pip install -r requirements.txt
+
+   ```
+
+3. **Run the application:**
+
+   ```sh
+   python ProjectManager.py
+
+   ```
+
 # Some Screen shots of the application running
 
 **Login screen ↓**
@@ -93,6 +119,8 @@ This project has been a great opportunity to push my limits, experiment with new
 **Task information window ↓**
 
 ![Project Screenshot](images/ff%20-%20task%20information.PNG)
+
+---
 
 # 🙌 Acknowledgments
 

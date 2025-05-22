@@ -6,6 +6,7 @@ from SignUp import SignUp
 from Database import Users
 from UserModel import UserModel
 from tkinter import messagebox
+import os
 
 class Login:
 
@@ -35,7 +36,8 @@ class Login:
     def login_display(self, window, app): 
         
         # image login  ** Figure out how to resize image when screen resizes **
-        image = Image.open('FinishFast/images/gradient.png') # change to Project_Manager/images/gradient.png on desktop
+        image_path = os.path.join(os.path.dirname(__file__), "images", "gradient.png")
+        image = Image.open(image_path)
         ctk_image =ctk.CTkImage(light_image=image, size=(200,450))
         image_label = ctk.CTkLabel(window, image=ctk_image, text='')
         image_label.grid(row=0, column=0, sticky='nws', rowspan=5, columnspan=2)

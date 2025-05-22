@@ -8,6 +8,7 @@ from MainView import MainView
 from Database import Database
 from SignUp import SignUp
 from Methods import Methods
+import os
  
 class ProjectManager:
     
@@ -28,7 +29,10 @@ class ProjectManager:
     def login_window(self):
 
         ctk.set_appearance_mode("light")
-        ctk.set_default_color_theme("FinishFast/custom_themes/jcolor.json")
+
+        # Use absolute path for the theme file
+        theme_path = os.path.join(os.path.dirname(__file__), "custom_themes", "jcolor.json")
+        ctk.set_default_color_theme(theme_path)
 
         # login window
         self.window = ctk.CTk()
