@@ -93,3 +93,12 @@ This project has been a great opportunity to push my limits, experiment with new
 **Task information window ↓**
 
 ![Project Screenshot](images/ff%20-%20task%20information.PNG)
+
+# 🙌 Acknowledgments
+
+- [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) for the modern and customizable Tkinter widgets.
+- [Tkinter](https://docs.python.org/3/library/tkinter.html) for the standard Python GUI toolkit.
+- [SQLite](https://www.sqlite.org/index.html) for the lightweight, serverless database engine.
+- [SQLAlchemy](https://www.sqlalchemy.org/) for the powerful and flexible ORM.
+- [Python](https://www.python.org/) for being the foundation of this project.
+- Thanks to the open-source community for documentation, tutorials, and inspiration!
